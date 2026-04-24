@@ -12,8 +12,28 @@ export default function App() {
   const [timeLeft, setTimeLeft] = useState(576); // 9:36 in seconds
   const [spotsLeft, setSpotsLeft] = useState(17);
   const [claimedCount, setClaimedCount] = useState(0);
+  const [geoStatus, setGeoStatus] = useState<'loading' | 'allowed' | 'denied'>('loading');
 
   useEffect(() => {
+    let isMounted = true;
+    
+    // Quick Geo Check
+    fetch('https://get.geojs.io/v1/ip/country.json')
+      .then(res => res.json())
+      .then(data => {
+        if (!isMounted) return;
+        if (data.country === 'US') {
+          setGeoStatus('allowed');
+        } else {
+          setGeoStatus('denied');
+        }
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        // In case of adblocker or fetch error, fail open so we don't accidentally block valid US users
+        setGeoStatus('allowed');
+      });
+
     const timer = setTimeout(() => setShowContent(true), 100);
     
     const countdown = setInterval(() => {
@@ -37,6 +57,7 @@ export default function App() {
     animationFrame = requestAnimationFrame(step);
 
     return () => {
+      isMounted = false;
       clearTimeout(timer);
       clearInterval(countdown);
       cancelAnimationFrame(animationFrame);
@@ -52,6 +73,26 @@ export default function App() {
   const handleCTA = () => {
     window.location.href = "https://YOUR-OFFER-LINK";
   };
+
+  if (geoStatus === 'loading') {
+    return (
+      <div className="min-h-screen bg-[#070908] flex items-center justify-center p-6">
+        <div className="w-10 h-10 border-4 border-[#22C55E]/20 border-t-[#22C55E] rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (geoStatus === 'denied') {
+    return (
+      <div className="min-h-screen bg-[#070908] text-white flex flex-col items-center justify-center p-6 text-center">
+        <AlertTriangle className="w-16 h-16 text-[#F59E0B] mb-6" />
+        <h1 className="text-3xl font-black mb-4">Region Not Supported</h1>
+        <p className="text-gray-400 max-w-sm">
+          We're sorry, this promotional offer is currently only available to residents of the United States.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#070908] text-white font-sans selection:bg-[#22C55E] selection:text-white overflow-x-hidden flex flex-col items-center">
