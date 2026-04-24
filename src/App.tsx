@@ -117,17 +117,30 @@ export default function App() {
 
       <main className="relative max-w-[440px] w-full flex flex-col px-6 pb-20">
         
-        {/* Promotional Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={showContent ? { opacity: 1, y: 0 } : {}}
-          className="inline-flex items-center space-x-2 px-3 py-1.5 bg-[#1B180A]/80 border border-[#F59E0B]/30 rounded-full w-fit mb-10 mt-4"
-        >
-          <div className="w-1.5 h-1.5 bg-[#F59E0B] rounded-full"></div>
-          <span className="text-[10px] font-black text-[#F59E0B] uppercase tracking-[0.18em]">
-            Limited Promotional Access
-          </span>
-        </motion.div>
+        <div className="flex flex-col gap-2 mb-10 mt-4">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={showContent ? { opacity: 1, y: 0 } : {}}
+            className="inline-flex items-center space-x-2 px-3 py-1.5 bg-[#1B180A]/80 border border-[#F59E0B]/30 rounded-full w-fit"
+          >
+            <div className="w-1.5 h-1.5 bg-[#F59E0B] rounded-full"></div>
+            <span className="text-[10px] font-black text-[#F59E0B] uppercase tracking-[0.18em]">
+              Limited Promotional Access
+            </span>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={showContent ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.1 }}
+            className="inline-flex items-center space-x-2 px-3 py-1.5 bg-[#1E293B]/80 border border-[#3B82F6]/30 rounded-full w-fit"
+          >
+             <span className="text-base leading-none">🇺🇸</span>
+             <span className="text-[10px] font-black text-[#60A5FA] uppercase tracking-[0.18em]">
+               Available for US residents only
+             </span>
+          </motion.div>
+        </div>
 
         {/* Hero Headline */}
         <motion.div
@@ -244,7 +257,11 @@ export default function App() {
             </button>
           </motion.div>
 
-          <p className="mt-4 text-gray-500 text-[14px] font-bold flex items-center gap-2">
+          <p className="mt-3 text-gray-400 text-[13px] font-semibold flex items-center gap-1.5 opacity-90">
+            <span className="text-[#22C55E]">✔</span> Over 10,000 US users checked this week
+          </p>
+
+          <p className="mt-5 text-gray-500 text-[14px] font-bold flex items-center gap-2">
             <motion.span 
               animate={{ y: [0, -4, 0] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
