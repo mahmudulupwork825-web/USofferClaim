@@ -137,10 +137,10 @@ export default function App() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="space-y-6 mb-12"
         >
-          <h1 className="text-[64px] font-black tracking-tighter leading-[0.9] font-display">
-            Claim Your <br/>
-            <span className="text-[#22C55E]">Free</span> <br/>
-            <span className="text-[#22C55E]">US Reward</span>
+          <h1 className="text-[54px] sm:text-[60px] font-black tracking-tighter leading-[0.9] font-display">
+            Check Your <br/>
+            <span className="text-[#22C55E]">US Reward</span> <br/>
+            <span className="text-[#22C55E]">Eligibility</span>
           </h1>
           
           <p className="text-gray-400 text-[17px] font-medium leading-relaxed max-w-[380px]">
