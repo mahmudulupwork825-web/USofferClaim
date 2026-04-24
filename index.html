@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Google AI Studio App</title>
+    <script>
+      // Fix for environments where fetch is a read-only getter on Window
+      (function() {
+        try {
+          var target = window;
+          var prop = 'fetch';
+          var desc = Object.getOwnPropertyDescriptor(target, prop);
+          
+          // If not on window, check prototype chain
+          if (!desc) {
+            var proto = Object.getPrototypeOf(target);
+            while (proto && !desc) {
+              desc = Object.getOwnPropertyDescriptor(proto, prop);
+              if (!desc) proto = Object.getPrototypeOf(proto);
+            }
+          }
+
+          if (desc && desc.configurable) {
+            var currentFetch = target[prop];
+            Object.defineProperty(target, prop, {
+              configurable: true,
+              enumerable: true,
+              get: function() { return currentFetch; },
+              set: function(v) { currentFetch = v; }
+            });
+          }
+        } catch (e) {
+          // Fallback if the above fails
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
