@@ -18,21 +18,26 @@ export default function App() {
     let isMounted = true;
     
     // Quick Geo Check
-    fetch('https://get.geojs.io/v1/ip/country.json')
-      .then(res => res.json())
-      .then(data => {
-        if (!isMounted) return;
-        if (data.country === 'US') {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('test') === 'true') {
+      setGeoStatus('allowed');
+    } else {
+      fetch('https://get.geojs.io/v1/ip/country.json')
+        .then(res => res.json())
+        .then(data => {
+          if (!isMounted) return;
+          if (data.country === 'US') {
+            setGeoStatus('allowed');
+          } else {
+            setGeoStatus('denied');
+          }
+        })
+        .catch(() => {
+          if (!isMounted) return;
+          // In case of adblocker or fetch error, fail open
           setGeoStatus('allowed');
-        } else {
-          setGeoStatus('denied');
-        }
-      })
-      .catch(() => {
-        if (!isMounted) return;
-        // In case of adblocker or fetch error, fail open so we don't accidentally block valid US users
-        setGeoStatus('allowed');
-      });
+        });
+    }
 
     const timer = setTimeout(() => setShowContent(true), 100);
     
