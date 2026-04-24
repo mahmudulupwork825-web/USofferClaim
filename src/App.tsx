@@ -237,10 +237,10 @@ export default function App() {
             <div className="absolute -inset-1.5 bg-[#14532D] rounded-[22px] blur-sm opacity-50 group-hover:opacity-100 group-hover:blur-md transition duration-300"></div>
             <button
               onClick={handleCTA}
-              className="relative w-full bg-[#22C55E] hover:bg-[#16A34A] text-black py-6 rounded-2xl text-[22px] font-black tracking-tight transition-all flex items-center justify-center gap-2 shadow-[0_20px_50px_rgba(34,197,94,0.3)] group-hover:shadow-[0_25px_60px_rgba(34,197,94,0.45)] border-4 border-[#14532D]"
+              className="relative w-full bg-[#22C55E] hover:bg-[#16A34A] text-black py-6 px-2 rounded-2xl text-[20px] sm:text-[22px] font-black tracking-tight transition-all flex items-center justify-center gap-2 shadow-[0_20px_50px_rgba(34,197,94,0.3)] group-hover:shadow-[0_25px_60px_rgba(34,197,94,0.45)] border-4 border-[#14532D]"
             >
-              Check Availability Now
-              <ChevronRight className="w-7 h-7 stroke-[4] transition-transform group-hover:translate-x-1.5" />
+              Continue to Eligibility Check
+              <ChevronRight className="w-7 h-7 stroke-[4] transition-transform group-hover:translate-x-1.5 shrink-0" />
             </button>
           </motion.div>
 
