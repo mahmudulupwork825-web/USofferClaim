@@ -1,25 +1,40 @@
-import tailwindcss from '@tailwindcss/vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
-import {defineConfig, loadEnv} from 'vite';
+import react from "@vitejs/plugin-react-swc";
+import path from "path";
+import { defineConfig, loadEnv } from "vite";
+import { componentTagger } from "lovable-tagger";
 
-export default defineConfig(({mode}) => {
-  const env = loadEnv(mode, '.', '');
+// https://vitejs.dev/config/
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, ".", "");
   return {
-    plugins: [react(), tailwindcss()],
+    base: "/",
+    server: {
+      host: "0.0.0.0",
+      port: 3000,
+      hmr: {
+        overlay: false,
+      },
+    },
+    plugins: [
+      react(),
+      mode === "development" && componentTagger(),
+    ].filter(Boolean),
     define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-      'global': 'globalThis',
+      "process.env.GEMINI_API_KEY": JSON.stringify(env.GEMINI_API_KEY),
+      "global": "globalThis",
     },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        "@": path.resolve(__dirname, "./src"),
       },
-    },
-    server: {
-      // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
-      hmr: process.env.DISABLE_HMR !== 'true',
+      dedupe: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "@tanstack/react-query",
+        "@tanstack/query-core",
+      ],
     },
   };
 });

@@ -4,130 +4,238 @@
  */
 
 import { motion } from "motion/react";
-import { Check, AlertTriangle, ChevronRight, Lock } from "lucide-react";
+import { Shield, ChevronRight, AlertTriangle, Zap, Clock, CheckCircle2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function App() {
   const [showContent, setShowContent] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(576); // 9:36 in seconds
+  const [spotsLeft, setSpotsLeft] = useState(17);
+  const [claimedCount, setClaimedCount] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => setShowContent(true), 100);
-    return () => clearTimeout(timer);
+    
+    const countdown = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    let animationFrame: number;
+    const startTimestamp = Date.now();
+    const duration = 2500;
+    const endValue = 2847;
+
+    const step = () => {
+      const progress = Math.min((Date.now() - startTimestamp) / duration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 4); // Quartic ease out
+      setClaimedCount(Math.floor(easeOut * endValue));
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(step);
+      }
+    };
+    animationFrame = requestAnimationFrame(step);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(countdown);
+      cancelAnimationFrame(animationFrame);
+    };
   }, []);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `00:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const handleCTA = () => {
     window.location.href = "https://YOUR-OFFER-LINK";
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white font-sans selection:bg-blue-500 selection:text-white overflow-x-hidden flex flex-col items-center justify-center p-6 sm:p-0">
+    <div className="min-h-screen bg-[#070908] text-white font-sans selection:bg-[#22C55E] selection:text-white overflow-x-hidden flex flex-col items-center">
       
-      <main className="relative max-w-[420px] w-full flex flex-col items-center py-12 md:py-0">
+      {/* Header */}
+      <header className="w-full max-w-[440px] flex items-center justify-between px-6 py-6 pt-8">
+        <div className="flex items-center space-x-2">
+          <div className="bg-[#22C55E] p-1.5 rounded-lg">
+            <Shield className="w-5 h-5 text-black" fill="currentColor" />
+          </div>
+          <span className="text-xl font-bold tracking-tight">
+            Offer<span className="text-[#22C55E]">Eligibility</span>Check
+          </span>
+        </div>
+        <div className="flex items-center space-x-2 bg-[#121413] border border-white/10 px-3 py-1.5 rounded-full">
+          <div className="w-2.5 h-2.5 bg-[#22C55E] rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+          <span className="text-[12px] font-bold text-gray-300 flex items-center gap-1.5 uppercase tracking-wide">
+            🇺🇸 US Live
+          </span>
+        </div>
+      </header>
+
+      <main className="relative max-w-[440px] w-full flex flex-col px-6 pb-20">
         
-        {/* Verification Badge */}
+        {/* Promotional Badge */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={showContent ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="flex items-center space-x-2 px-3 py-1 bg-green-500/10 border border-green-500/30 rounded-full mb-8"
+          className="inline-flex items-center space-x-2 px-3 py-1.5 bg-[#1B180A]/80 border border-[#F59E0B]/30 rounded-full w-fit mb-10 mt-4"
         >
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest leading-none">
-            Live Status: Open for US Residents
+          <div className="w-1.5 h-1.5 bg-[#F59E0B] rounded-full"></div>
+          <span className="text-[10px] font-black text-[#F59E0B] uppercase tracking-[0.18em]">
+            Limited Promotional Access
           </span>
         </motion.div>
 
-        {/* Hero Section */}
-        <section className="text-center mb-8 space-y-3">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={showContent ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl font-black tracking-tight leading-[1.1] font-display"
-          >
-            Claim Your Free <br/>
-            <span className="text-blue-500 underline decoration-2 underline-offset-8">US Reward</span>
-          </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={showContent ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-gray-400 text-lg font-medium max-w-[340px] mx-auto leading-snug"
-          >
-            Limited-time promotional access for eligible users in the United States.
-          </motion.p>
-        </section>
-
-        {/* Urgency Box */}
+        {/* Hero Headline */}
         <motion.div
-          initial={{ opacity: 0, x: -10 }}
-          animate={showContent ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="w-full bg-[#1A1A1A] border-l-4 border-amber-500 p-5 rounded-r-lg mb-8"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-20px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="space-y-6 mb-12"
         >
-          <div className="flex items-start space-x-3">
-            <AlertTriangle className="w-6 h-6 text-amber-500 shrink-0 mt-0.5" />
-            <div>
-              <p className="text-sm font-bold text-amber-500 uppercase tracking-wide">Status Update</p>
-              <p className="text-sm text-gray-200 mt-1">This promotional access may close anytime due to limited availability in your region.</p>
-            </div>
-          </div>
+          <h1 className="text-[64px] font-black tracking-tighter leading-[0.9] font-display">
+            Claim Your <br/>
+            <span className="text-[#22C55E]">Free</span> <br/>
+            <span className="text-[#22C55E]">US Reward</span>
+          </h1>
+          
+          <p className="text-gray-400 text-[17px] font-medium leading-relaxed max-w-[380px]">
+            Limited-time promotional access for eligible users in the United States. Check if you qualify in under 30 seconds.
+          </p>
         </motion.div>
 
-        {/* Trust Section */}
+        {/* Feature Cards */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={showContent ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="w-full space-y-5 mb-10"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="space-y-3 mb-10"
         >
           {[
-            "No credit card required",
-            "Free eligibility check",
-            "Takes less than 30 seconds"
-          ].map((text, i) => (
-            <div key={i} className="flex items-center space-x-4">
-              <div className="bg-white rounded-full p-1 shrink-0">
-                <Check className="w-3.5 h-3.5 text-black stroke-[3]" />
+            {
+              title: "100% Free — No Card Needed",
+              desc: "Zero payment info. Nothing to enter, nothing to cancel.",
+              icon: <CheckCircle2 className="w-6 h-6 text-[#22C55E]" />
+            },
+            {
+              title: "Instant Eligibility Check",
+              desc: "See if you qualify for this US-only reward — completely free.",
+              icon: <Shield className="w-6 h-6 text-[#22C55E]" />
+            },
+            {
+              title: "Done in Under 30 Seconds",
+              desc: "3 quick questions. No signup, no waiting, no hassle.",
+              icon: <Clock className="w-6 h-6 text-[#22C55E]" />
+            }
+          ].map((item, i) => (
+            <div key={i} className="flex items-center space-x-4 p-5 rounded-2xl bg-[#0F1110] border border-white/5 hover:border-white/10 transition-all">
+              <div className="bg-[#22C55E]/10 p-2.5 rounded-xl border border-[#22C55E]/20">
+                {item.icon}
               </div>
-              <span className="text-lg font-semibold tracking-tight">{text}</span>
+              <div className="space-y-0.5">
+                <h3 className="font-bold text-[18px] tracking-tight">{item.title}</h3>
+                <p className="text-gray-500 text-[14px] font-medium leading-snug">{item.desc}</p>
+              </div>
             </div>
           ))}
         </motion.div>
 
-        {/* CTA Section */}
+        {/* Urgency Box */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={showContent ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="w-full flex flex-col items-center"
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={showContent ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="bg-[#0F1110] border border-[#F59E0B]/30 rounded-2xl p-6 mb-12"
         >
-          <motion.button
-            onClick={handleCTA}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full bg-blue-600 hover:bg-blue-500 text-white text-center py-5 rounded-xl text-xl font-bold uppercase tracking-widest shadow-[0_0_30px_rgba(37,99,235,0.4)] transition-all flex items-center justify-center gap-2"
-            id="cta-button"
-          >
-            Check Availability Now
-            <ChevronRight className="w-6 h-6" />
-          </motion.button>
-          
-          <div className="mt-4 flex items-center space-x-2 text-gray-500">
-            <Lock className="w-4 h-4 fill-current" />
-            <span className="text-xs font-medium uppercase tracking-tighter">Secure 256-Bit Encrypted Portal</span>
+          <div className="flex items-start space-x-4">
+            <div className="bg-[#F59E0B]/10 p-2 rounded-lg shrink-0 mt-1 focus:ring-opacity-50">
+              <AlertTriangle className="w-6 h-6 text-[#F59E0B]" />
+            </div>
+            <div className="space-y-5 w-full">
+              <p className="text-[17px] font-bold text-gray-200 leading-snug">
+                This promotional access may close anytime due to limited availability.
+              </p>
+              
+              <div className="pt-2 space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-500 font-bold text-sm tracking-tight uppercase">Closes in:</span>
+                  <span className="font-mono text-[#F59E0B] font-black text-2xl tabular-nums tracking-wider">
+                    {formatTime(timeLeft)}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-500 font-bold text-sm tracking-tight uppercase">Spots remaining:</span>
+                  <span className="font-black text-[#F59E0B] text-lg">
+                    {spotsLeft} left
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
 
-        {/* Footer Disclaimer */}
-        <footer className="mt-16 w-full">
-          <p className="text-[10px] text-gray-600 text-center leading-relaxed max-w-[320px] mx-auto uppercase tracking-wide">
-            Copyright © 2024 Reward Access. This page contains promotional content and may redirect to third-party offers. Eligibility subject to verification.
+        {/* CTA Button & Social Proof */}
+        <motion.div
+           initial={{ opacity: 0, y: 40 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true, margin: "-20px" }}
+           transition={{ duration: 0.6, ease: "easeOut" }}
+           className="px-2 flex flex-col items-center"
+        >
+          <motion.div 
+            whileHover={{ 
+              scale: 1.02,
+              filter: "brightness(1.05)",
+            }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full relative group transition-all duration-200"
+          >
+            <div className="absolute -inset-1.5 bg-[#14532D] rounded-[22px] blur-sm opacity-50 group-hover:opacity-100 group-hover:blur-md transition duration-300"></div>
+            <button
+              onClick={handleCTA}
+              className="relative w-full bg-[#22C55E] hover:bg-[#16A34A] text-black py-6 rounded-2xl text-[22px] font-black tracking-tight transition-all flex items-center justify-center gap-2 shadow-[0_20px_50px_rgba(34,197,94,0.3)] group-hover:shadow-[0_25px_60px_rgba(34,197,94,0.45)] border-4 border-[#14532D]"
+            >
+              Check Availability Now
+              <ChevronRight className="w-7 h-7 stroke-[4] transition-transform group-hover:translate-x-1.5" />
+            </button>
+          </motion.div>
+
+          <p className="mt-4 text-gray-500 text-[14px] font-bold flex items-center gap-2">
+            <motion.span 
+              animate={{ y: [0, -4, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              className="text-base"
+            >
+              👆
+            </motion.span> 
+            Tap to verify your eligibility instantly
           </p>
-        </footer>
+
+          <div className="mt-8 flex items-center space-x-3 py-2 px-4 rounded-full">
+            <div className="flex -space-x-3">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#22C55E] to-[#4ADE80] border-2 border-[#070908]"></div>
+              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#FBBF24] to-[#F59E0B] border-2 border-[#070908]"></div>
+              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#22C55E] to-[#10B981] border-2 border-[#070908]"></div>
+            </div>
+            <p className="text-[15px] font-medium text-gray-400">
+               <span className="font-black text-white">{claimedCount.toLocaleString()}</span> Americans claimed today
+            </p>
+          </div>
+
+          <div className="w-full h-px bg-white/5 my-12"></div>
+          
+          <p className="text-[12px] text-gray-600 font-medium leading-relaxed text-center max-w-[380px]">
+            © 2026 OfferEligibilityCheck. This page contains promotional content and may redirect to third-party offers. Eligibility and rewards are determined by the third-party provider.
+          </p>
+        </motion.div>
+
       </main>
     </div>
   );
 }
+
+
 
