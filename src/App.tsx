@@ -22,12 +22,12 @@ export default function App() {
     if (urlParams.get('test') === 'true') {
       setGeoStatus('allowed');
     } else {
-      // Set a timeout fallback - if geo check takes > 2.5s, just allow access
+      // Set a strict timeout fallback - if geo check takes > 1.5s, just allow access to prevent "site not loading"
       const geoTimeout = setTimeout(() => {
-        if (isMounted && geoStatus === 'loading') {
+        if (isMounted) {
           setGeoStatus('allowed');
         }
-      }, 2500);
+      }, 1500);
 
       fetch('https://get.geojs.io/v1/ip/country.json')
         .then(res => res.json())
@@ -43,7 +43,6 @@ export default function App() {
         .catch(() => {
           clearTimeout(geoTimeout);
           if (!isMounted) return;
-          // In case of adblocker or fetch error, fail open
           setGeoStatus('allowed');
         });
     }
