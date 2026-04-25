@@ -2,8 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://offereligibilitycheck.com/</loc>
-    <lastmod>2026-04-24</lastmod>
-    <changefreq>daily</changefreq>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>always</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://offereligibilitycheck.com/verify-status</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>always</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://offereligibilitycheck.com/check-rewards</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>always</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://offereligibilitycheck.com/gift-cards</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>always</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://offereligibilitycheck.com/cash-rewards</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>always</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://offereligibilitycheck.com/coupons</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>always</changefreq>
     <priority>1.0</priority>
   </url>
 </urlset>
