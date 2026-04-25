@@ -141,6 +141,16 @@ const Footer = () => (
 const AboutPage = () => {
   useEffect(() => {
     document.title = "About Us | OfferEligibilityCheck";
+    
+    // Canonical link injection
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://offereligibilitycheck.com/about');
+    
     window.scrollTo(0, 0);
   }, []);
 
@@ -193,6 +203,16 @@ const AboutPage = () => {
 const PrivacyPage = () => {
   useEffect(() => {
     document.title = "Privacy Policy | OfferEligibilityCheck";
+    
+    // Canonical link injection
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://offereligibilitycheck.com/privacy');
+    
     window.scrollTo(0, 0);
   }, []);
 
@@ -247,6 +267,16 @@ const BlogPostPage = () => {
   
   useEffect(() => {
     document.title = "How I Earned My First $10 Online: A Step-by-Step Guide | OfferCheck Blog";
+    
+    // Canonical link injection
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://offereligibilitycheck.com/earn-10-online');
+    
     window.scrollTo(0, 0);
   }, []);
 
@@ -336,6 +366,16 @@ const LandingPage = ({ offerUrl, title, description }: LandingPageProps) => {
     document.title = title;
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute("content", description);
+
+    // Canonical link injection
+    const location = window.location.pathname;
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', `https://offereligibilitycheck.com${location === '/' ? '/' : location}`);
     
     window.scrollTo(0, 0);
 
