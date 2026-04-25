@@ -7,6 +7,8 @@ interface LandingPageProps {
   offerUrl: string;
   title: string;
   description: string;
+  geoRestricted?: 'CH';
+  deviceRestricted?: 'Apple' | 'Desktop';
 }
 
 const Navbar = () => {
@@ -357,12 +359,12 @@ const BlogPostPage = () => {
   );
 };
 
-const LandingPage = ({ offerUrl, title, description, geoRestricted }: LandingPageProps & { geoRestricted?: 'CH' }) => {
+const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestricted }: LandingPageProps) => {
   const [showContent, setShowContent] = useState(false);
   const [timeLeft, setTimeLeft] = useState(576); // 9:36 in seconds
   const [spotsLeft, setSpotsLeft] = useState(17);
   const [claimedCount, setClaimedCount] = useState(0);
-  const [geoStatus, setGeoStatus] = useState<'checking' | 'allowed' | 'denied'>('checking');
+  const [verificationStatus, setVerificationStatus] = useState<'checking' | 'allowed' | 'geo_denied' | 'device_denied'>('checking');
 
   useEffect(() => {
     // Update meta tags dynamically for SEO
@@ -383,23 +385,43 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted }: LandingPag
     window.scrollTo(0, 0);
 
     let isMounted = true;
-    if (geoRestricted) {
-      fetch('https://get.geojs.io/v1/ip/country.json')
-        .then(res => res.json())
-        .then(data => {
+    
+    const runChecks = async () => {
+      // 1. Device Check
+      if (deviceRestricted === 'Apple') {
+        const isApple = /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent);
+        if (!isApple) {
+          if (isMounted) setVerificationStatus('device_denied');
+          return;
+        }
+      } else if (deviceRestricted === 'Desktop') {
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (isMobile) {
+          if (isMounted) setVerificationStatus('device_denied');
+          return;
+        }
+      }
+
+      // 2. Geo Check
+      if (geoRestricted) {
+        try {
+          const res = await fetch('https://get.geojs.io/v1/ip/country.json');
+          const data = await res.json();
           if (!isMounted) return;
           if (data.country === geoRestricted) {
-            setGeoStatus('allowed');
+            setVerificationStatus('allowed');
           } else {
-            setGeoStatus('denied');
+            setVerificationStatus('geo_denied');
           }
-        })
-        .catch(() => {
-          if (isMounted) setGeoStatus('allowed'); // Fallback to allow if API fails
-        });
-    } else {
-      setGeoStatus('allowed');
-    }
+        } catch (error) {
+          if (isMounted) setVerificationStatus('allowed'); // Fallback
+        }
+      } else {
+        if (isMounted) setVerificationStatus('allowed');
+      }
+    };
+
+    runChecks();
 
     // Timer
     const timer = setInterval(() => {
@@ -433,7 +455,7 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted }: LandingPag
       clearTimeout(fadeIn);
       cancelAnimationFrame(animationFrame);
     };
-  }, [title, description, geoRestricted]);
+  }, [title, description, geoRestricted, deviceRestricted]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -445,24 +467,40 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted }: LandingPag
     window.location.href = offerUrl;
   };
 
-  if (geoStatus === 'checking') {
+  if (verificationStatus === 'checking') {
     return (
       <div className="min-h-screen bg-[#070908] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-[#22C55E]/20 border-t-[#22C55E] rounded-full animate-spin" />
-          <p className="text-gray-500 font-medium text-sm animate-pulse">Running Regional Verification...</p>
+          <p className="text-gray-500 font-medium text-sm animate-pulse">Running Device & Region Verification...</p>
         </div>
       </div>
     );
   }
 
-  if (geoStatus === 'denied') {
+  if (verificationStatus === 'geo_denied') {
     return (
       <div className="min-h-screen bg-[#070908] text-white flex flex-col items-center justify-center p-6 text-center">
         <Globe className="w-16 h-16 text-yellow-500 mb-6 opacity-50" />
         <h1 className="text-3xl font-black mb-4">REGION RESTRICTED</h1>
         <p className="text-gray-400 max-w-md leading-relaxed font-medium">This high-value offer is currently optimized for residents of Switzerland. Your geographic scan indicates access from a different region.</p>
         <Link to="/" className="mt-8 text-[#22C55E] border border-[#22C55E]/30 px-8 py-3 rounded-2xl font-bold hover:bg-[#22C55E]/10 transition-all">Return to Global Offers</Link>
+      </div>
+    );
+  }
+
+  if (verificationStatus === 'device_denied') {
+    return (
+      <div className="min-h-screen bg-[#070908] text-white flex flex-col items-center justify-center p-6 text-center">
+        <Lock className="w-16 h-16 text-[#22C55E] mb-6 opacity-50" />
+        <h1 className="text-3xl font-black mb-4">{deviceRestricted === 'Apple' ? 'APPLE DEVICE REQUIRED' : 'DESKTOP REQUIRED'}</h1>
+        <p className="text-gray-400 max-w-md leading-relaxed font-medium">
+          {deviceRestricted === 'Apple' 
+            ? 'This rewards portal is exclusively available for Apple OS users (iOS/macOS). Your system scan detected a different operating platform.'
+            : 'Diese Umfragen sind exklusiv für Desktop-Benutzer optimiert. Bitte nutzen Sie einen Computer oder Laptop für den Zugriff.'
+          }
+        </p>
+        <Link to="/" className="mt-8 text-[#22C55E] border border-[#22C55E]/30 px-8 py-3 rounded-2xl font-bold hover:bg-[#22C55E]/10 transition-all">See Other Offers</Link>
       </div>
     );
   }
@@ -659,6 +697,19 @@ export default function App() {
               title="Bezahlte Umfragen Schweiz | Geld verdienen mit Ihrer Meinung"
               description="Überprüfen Sie Ihre Berechtigung für hochbezahlte Online-Umfragen in der Schweiz. Verdienen Sie Geld mit Ihrer Meinung über unser automatisiertes Verifizierungsportal."
               geoRestricted="CH"
+              deviceRestricted="Apple"
+            />
+          } 
+        />
+        <Route 
+          path="/umfragen-schweiz" 
+          element={
+            <LandingPage 
+              offerUrl="https://singingfiles.com/show.php?l=0&u=2520769&id=74815"
+              title="Top Bezahlte Umfragen Schweiz | Desktop Portal"
+              description="Exklusive Umfragen für Schweizer Desktop-Nutzer. Überprüfen Sie jetzt Ihre Berechtigung und fangen Sie an zu verdienen."
+              geoRestricted="CH"
+              deviceRestricted="Desktop"
             />
           } 
         />
