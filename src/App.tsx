@@ -7,7 +7,7 @@ interface LandingPageProps {
   offerUrl: string;
   title: string;
   description: string;
-  geoRestricted?: 'CH' | 'PT';
+  geoRestricted?: 'CH' | 'PT' | 'US';
   deviceRestricted?: 'Apple' | 'Desktop' | 'Android';
 }
 
@@ -26,6 +26,12 @@ const LiveNotifications = ({ region }: { region?: string }) => {
     amounts: ["15.00 €", "25.00 €", "10.00 €", "50.00 €", "20.00 €"],
     label: "Pagamento Confirmado",
     received: "recebeu"
+  } : region === 'US' ? {
+    names: ["James", "Emma", "William", "Olivia", "Robert", "Sophia", "Michael", "Isabella", "David", "Mia"],
+    cities: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"],
+    amounts: ["$15.00", "$25.00", "$10.00", "$50.00", "$20.00"],
+    label: "Payment Confirmed",
+    received: "received"
   } : null;
 
   useEffect(() => {
@@ -427,6 +433,137 @@ const BlogPostPage = () => {
   );
 };
 
+const SurveysPage = () => {
+  const surveys = [
+    {
+      id: "74817",
+      title: "Bezahlte Umfragen Schweiz (iOS)",
+      description: "Exklusiv für Apple-Nutzer in der Schweiz. Verdienen Sie Geld mit Ihrer Meinung.",
+      path: "/surveys-ios",
+      region: "CH",
+      device: "Apple",
+      color: "bg-[#22C55E]"
+    },
+    {
+      id: "74815",
+      title: "Top Bezahlte Umfragen Schweiz (Desktop)",
+      description: "Optimiert für Desktop-Nutzer. Höchste Vergütung für detaillierte Umfragen.",
+      path: "/umfragen-schweiz",
+      region: "CH",
+      device: "Desktop",
+      color: "bg-[#3B82F6]"
+    },
+    {
+      id: "74816",
+      title: "Android Umfragen Schweiz",
+      description: "Verdienen Sie Geld direkt auf Ihrem Android-Smartphone. Bequem von überall.",
+      path: "/bezahlte-umfragen-android",
+      region: "CH",
+      device: "Android",
+      color: "bg-[#A4C639]"
+    },
+    {
+      id: "70892",
+      title: "Sondagens Pagas Portugal",
+      description: "Ganhe recompensas no seu iPhone respondendo a sondagens premium em Portugal.",
+      path: "/ganhar-dinheiro-portugal",
+      region: "PT",
+      device: "Apple",
+      color: "bg-[#DA291C]"
+    },
+    {
+      id: "US-IOS",
+      title: "USA Paid Surveys (iOS)",
+      description: "Exclusive rewards for iPhone users in the United States. Start earning today.",
+      path: "/usa-surveys-ios",
+      region: "US",
+      device: "Apple",
+      color: "bg-[#3B82F6]"
+    },
+    {
+      id: "US-DESKTOP",
+      title: "Premium US Research (Desktop)",
+      description: "High-paying market research for US desktop users. No app installation required.",
+      path: "/usa-surveys-desktop",
+      region: "US",
+      device: "Desktop",
+      color: "bg-[#6366F1]"
+    },
+    {
+      id: "US-ANDROID",
+      title: "USA Mobile Rewards (Android)",
+      description: "Earn rewards on your Android device. Quick tasks and instant eligibility checks.",
+      path: "/usa-surveys-android",
+      region: "US",
+      device: "Android",
+      color: "bg-[#10B981]"
+    }
+  ];
+
+  useEffect(() => {
+    document.title = "Available Surveys | OfferCheck Portal";
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#070908] pt-32 pb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="inline-flex items-center gap-2 bg-[#22C55E]/5 border border-[#22C55E]/20 px-4 py-1.5 rounded-full mb-6"
+          >
+            <Globe className="w-4 h-4 text-[#22C55E]" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22C55E]">Multi-Region Access Portal</span>
+          </motion.div>
+          <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-6">
+            CHOOSE YOUR <span className="text-[#22C55E]">PORTAL</span>
+          </h1>
+          <p className="text-gray-500 max-w-2xl mx-auto text-lg">
+            Select the offer that matches your current device and location to begin the verification process.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {surveys.map((survey, index) => (
+            <motion.div
+              key={survey.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="group relative"
+            >
+              <Link to={survey.path} className="block h-full">
+                <div className="h-full bg-white/[0.02] border border-white/5 rounded-3xl p-8 transition-all hover:bg-white/[0.04] hover:border-[#22C55E]/30 flex flex-col">
+                  <div className={`w-12 h-12 rounded-xl ${survey.color}/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                    {survey.device === 'Apple' ? <Shield className={`w-6 h-6 ${survey.color.replace('bg-', 'text-')}`} /> : 
+                     survey.device === 'Android' ? <Zap className={`w-6 h-6 ${survey.color.replace('bg-', 'text-')}`} /> : 
+                     <Globe className={`w-6 h-6 ${survey.color.replace('bg-', 'text-')}`} />}
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{survey.region}</span>
+                    <span className="w-1 h-1 rounded-full bg-gray-700" />
+                    <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{survey.device}</span>
+                  </div>
+                  <h3 className="text-white font-bold text-xl mb-4 group-hover:text-[#22C55E] transition-colors">{survey.title}</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed mb-8 flex-grow">
+                    {survey.description}
+                  </p>
+                  <div className="flex items-center gap-2 text-[#22C55E] font-black text-sm uppercase tracking-tighter">
+                    Check Eligibility
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestricted }: LandingPageProps) => {
   const [showContent, setShowContent] = useState(false);
   const [timeLeft, setTimeLeft] = useState(576); // 9:36 in seconds
@@ -598,11 +735,11 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#22C55E]"></span>
             </span>
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22C55E]">
-              {geoRestricted === 'CH' ? 'ZERTIFIZIERT FÜR SCHWEIZ IP' : geoRestricted === 'PT' ? 'CERTIFICADO PARA PORTUGAL IP' : 'System Online: Verification Active'}
+              {geoRestricted === 'CH' ? 'ZERTIFIZIERT FÜR SCHWEIZ IP' : geoRestricted === 'PT' ? 'CERTIFICADO PARA PORTUGAL IP' : geoRestricted === 'US' ? 'VERIFIED FOR UNITED STATES IP' : 'System Online: Verification Active'}
             </span>
           </motion.div>
 
-          {(geoRestricted === 'CH' || geoRestricted === 'PT') && (
+          {(geoRestricted === 'CH' || geoRestricted === 'PT' || geoRestricted === 'US') && (
             <div className="flex gap-4 mb-6">
               <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 rounded-lg border border-white/10">
                 {geoRestricted === 'CH' ? (
@@ -610,13 +747,32 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                     <div className="w-full h-0.5 bg-white absolute"></div>
                     <div className="w-0.5 h-full bg-white absolute"></div>
                   </div>
-                ) : (
+                ) : geoRestricted === 'PT' ? (
                   <div className="w-4 h-3 bg-[#046A38] relative overflow-hidden flex">
                     <div className="w-[40%] h-full bg-[#DA291C]"></div>
                     <div className="w-[20%] h-[20%] bg-yellow-400 absolute top-1/2 left-[40%] -translate-y-1/2 -translate-x-1/2 rounded-full shadow-[0_0_2px_rgba(0,0,0,0.5)]"></div>
                   </div>
+                ) : (
+                  <div className="w-4 h-3 bg-[#0A3161] relative overflow-hidden flex flex-col">
+                    <div className="h-1/7 w-full bg-[#B22234]" />
+                    <div className="h-1/7 w-full bg-white" />
+                    <div className="h-1/7 w-full bg-[#B22234]" />
+                    <div className="h-1/7 w-full bg-white" />
+                    <div className="h-1/7 w-full bg-[#B22234]" />
+                    <div className="h-1/7 w-full bg-white" />
+                    <div className="h-1/7 w-full bg-[#B22234]" />
+                    <div className="absolute top-0 left-0 w-[45%] h-[55%] bg-[#0A3161] flex items-center justify-center">
+                      <div className="grid grid-cols-3 gap-0.5">
+                        <div className="w-0.5 h-0.5 bg-white rounded-full" />
+                        <div className="w-0.5 h-0.5 bg-white rounded-full" />
+                        <div className="w-0.5 h-0.5 bg-white rounded-full" />
+                      </div>
+                    </div>
+                  </div>
                 )}
-                <span className="text-[10px] font-bold text-gray-400">{geoRestricted === 'CH' ? 'CH-RESIDENT' : 'PT-RESIDENT'}</span>
+                <span className="text-[10px] font-bold text-gray-400">
+                  {geoRestricted === 'CH' ? 'CH-RESIDENT' : geoRestricted === 'PT' ? 'PT-RESIDENT' : 'US-RESIDENT'}
+                </span>
               </div>
               <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 rounded-lg border border-white/10">
                 <Shield className="w-3 h-3 text-[#22C55E]" />
@@ -634,6 +790,8 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
               <>SICHERN SIE IHRE <span className="text-[#22C55E]">BERECHTIGUNG</span> BEVOR DIE FRIST ABLÄUFT</>
             ) : geoRestricted === 'PT' ? (
               <>GARANTA A SUA <span className="text-[#22C55E]">ELEGIBILIDADE</span> ANTES QUE O ACESSO EXPIRE</>
+            ) : geoRestricted === 'US' ? (
+              <>SECURE YOUR <span className="text-[#22C55E]">OFFER ELIGIBILITY</span> BEFORE THE WINDOW CLOSES</>
             ) : (
               <>SECURE YOUR <span className="text-[#22C55E]">ELIGIBILITY</span> BEFORE ACCESS EXPIRES</>
             )}
@@ -650,6 +808,7 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
               <span className="text-[11px] font-bold text-[#22C55E] uppercase tracking-wider">
                 {geoRestricted === 'CH' ? 'Dieses Angebot gilt nur für Nutzer in der Schweiz' : 
                  geoRestricted === 'PT' ? 'Esta oferta é apenas para utilizadores em Portugal' : 
+                 geoRestricted === 'US' ? 'This offer is only for residents in the United States' :
                  `Target Region: ${geoRestricted}`}
               </span>
             </motion.div>
@@ -665,6 +824,8 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
               ? 'Das finale Zeitfenster für exklusive Schweizer Prämien ist jetzt geöffnet. Die automatisierte Überprüfung läuft.'
               : geoRestricted === 'PT'
               ? 'A janela de verificação final para recompensas premium em Portugal está aberta. Verificações de elegibilidade automatizadas em processamento.'
+              : geoRestricted === 'US'
+              ? 'The final verification window for premium US rewards is now open. Automated eligibility checks are currently being processed.'
               : 'The final verification window for premium rewards is now open. Automated eligibility checks are currently being processed.'}
           </motion.p>
 
@@ -677,17 +838,17 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
             <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
               <div className="flex items-center gap-2 text-xs font-bold text-gray-400">
                 <Shield className="w-4 h-4 text-[#22C55E]" />
-                {geoRestricted === 'CH' ? 'VERSCHLÜSSELTES PORTAL' : geoRestricted === 'PT' ? 'PORTAL ENCRIPTADO' : 'ENCRYPTED PORTAL'}
+                {geoRestricted === 'CH' ? 'VERSCHLÜSSELTES PORTAL' : geoRestricted === 'PT' ? 'PORTAL ENCRIPTADO' : geoRestricted === 'US' ? 'ENCRYPTED US PORTAL' : 'ENCRYPTED PORTAL'}
               </div>
               <div className="text-[11px] font-mono text-gray-600 bg-white/5 px-2 py-0.5 rounded">
-                {geoRestricted === 'CH' ? 'RX-992-CH' : geoRestricted === 'PT' ? 'RX-992-PT' : 'RX-992-B'}
+                {geoRestricted === 'CH' ? 'RX-992-CH' : geoRestricted === 'PT' ? 'RX-992-PT' : geoRestricted === 'US' ? 'RX-992-US' : 'RX-992-B'}
               </div>
             </div>
 
             <div className="grid grid-cols-2 border-b border-white/5">
               <div className="p-6 border-r border-white/5 text-left">
                 <div className="text-[10px] uppercase tracking-widest font-bold text-gray-600 mb-1">
-                  {geoRestricted === 'CH' ? 'RECHZEIT' : geoRestricted === 'PT' ? 'TEMPO RESTANTE' : 'Time Remaining'}
+                  {geoRestricted === 'CH' ? 'RECHZEIT' : geoRestricted === 'PT' ? 'TEMPO RESTANTE' : geoRestricted === 'US' ? 'TIME REMAINING' : 'Time Remaining'}
                 </div>
                 <div className="text-2xl font-black text-white font-mono flex items-center gap-2">
                   <Clock className="w-5 h-5 text-yellow-500/50" />
@@ -696,9 +857,9 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
               </div>
               <div className="p-6 text-left">
                 <div className="text-[10px] uppercase tracking-widest font-bold text-gray-600 mb-1">
-                  {geoRestricted === 'CH' ? 'PLÄTZE FREI' : geoRestricted === 'PT' ? 'VAGAS RESTANTES' : 'Spots Left'}
+                  {geoRestricted === 'CH' ? 'PLÄTZE FREI' : geoRestricted === 'PT' ? 'VAGAS RESTANTES' : geoRestricted === 'US' ? 'SPOTS REMAINING' : 'Spots Left'}
                 </div>
-                <div className="text-2xl font-black text-white font-mono flex items-center gap-2">
+ Broadway                <div className="text-2xl font-black text-white font-mono flex items-center gap-2">
                   <Zap className="w-5 h-5 text-[#22C55E]/50" />
                   0{spotsLeft}
                 </div>
@@ -712,10 +873,10 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 </div>
                 <div className="text-left">
                   <h4 className="text-sm font-bold text-white">
-                    {geoRestricted === 'CH' ? 'Geografischer Scan abgeschlossen' : geoRestricted === 'PT' ? 'Verificação Geográfica Concluída' : 'Geographic Scan Completed'}
+                    {geoRestricted === 'CH' ? 'Geografischer Scan abgeschlossen' : geoRestricted === 'PT' ? 'Verificação Geográfica Concluída' : geoRestricted === 'US' ? 'US Geographic Scan Completed' : 'Geographic Scan Completed'}
                   </h4>
                   <p className="text-[11px] text-gray-500">
-                    {geoRestricted === 'CH' ? 'Region Schweiz bestätigt.' : geoRestricted === 'PT' ? 'Região Portugal confirmada.' : 'Region eligibility confirmed.'}
+                    {geoRestricted === 'CH' ? 'Region Schweiz bestätigt.' : geoRestricted === 'PT' ? 'Região Portugal confirmada.' : geoRestricted === 'US' ? 'United States region confirmed.' : 'Region eligibility confirmed.'}
                   </p>
                 </div>
               </div>
@@ -726,10 +887,10 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 </div>
                 <div className="text-left">
                   <h4 className="text-sm font-bold text-white">
-                    {geoRestricted === 'CH' ? 'Geräteprüfung OK' : geoRestricted === 'PT' ? 'Handshake do Sistema Ativo' : 'System Handshake Active'}
+                    {geoRestricted === 'CH' ? 'Geräteprüfung OK' : geoRestricted === 'PT' ? 'Handshake do Sistema Ativo' : geoRestricted === 'US' ? 'US System Verification OK' : 'System Handshake Active'}
                   </h4>
                   <p className="text-[11px] text-gray-500">
-                    {geoRestricted === 'CH' ? 'Kompatibilität verifiziert.' : geoRestricted === 'PT' ? 'Status de compatibilidade verificado.' : 'Automated status check complete.'}
+                    {geoRestricted === 'CH' ? 'Kompatibilität verifiziert.' : geoRestricted === 'PT' ? 'Status de compatibilidade verificado.' : geoRestricted === 'US' ? 'Device compatibility validated.' : 'Automated status check complete.'}
                   </p>
                 </div>
               </div>
@@ -739,7 +900,7 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 className="w-full group relative bg-[#22C55E] text-black h-16 rounded-2xl font-black text-lg tracking-tight overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
-                  {geoRestricted === 'CH' ? 'JETZT BERECHTIGUNG PRÜFEN' : geoRestricted === 'PT' ? 'VERIFICAR ELEGIBILIDADE AGORA' : 'VERIFY ELIGIBILITY NOW'}
+                  {geoRestricted === 'CH' ? 'JETZT BERECHTIGUNG PRÜFEN' : geoRestricted === 'PT' ? 'VERIFICAR ELEGIBILIDADE AGORA' : geoRestricted === 'US' ? 'VERIFY US ELIGIBILITY NOW' : 'VERIFY ELIGIBILITY NOW'}
                   <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-[#22C55E] via-[#4ade80] to-[#22C55E] opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -755,13 +916,13 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 <div className="w-11 h-11 rounded-full border-[3px] border-[#070908] bg-[#22C55E] relative z-10" />
               </div>
               <p className="text-sm font-medium text-gray-400">
-                <span className="text-white font-bold">{claimedCount.toLocaleString()}</span> {geoRestricted === 'CH' ? 'Schweizer Nutzer heute' : geoRestricted === 'PT' ? 'utilizadores portugueses hoje' : 'users checked today'}
+                <span className="text-white font-bold">{claimedCount.toLocaleString()}</span> {geoRestricted === 'CH' ? 'Schweizer Nutzer heute' : geoRestricted === 'PT' ? 'utilizadores portugueses hoje' : geoRestricted === 'US' ? 'US users verified today' : 'users checked today'}
               </p>
             </div>
           </div>
 
-          {/* Social Proof Section - For CH and PT */}
-          {(geoRestricted === 'CH' || geoRestricted === 'PT') && (
+          {/* Social Proof Section - For CH, PT, and US */}
+          {(geoRestricted === 'CH' || geoRestricted === 'PT' || geoRestricted === 'US') && (
             <div className="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-left mb-24">
               <div className="p-8 bg-white/[0.02] border border-white/5 rounded-3xl">
                 <div className="flex gap-1 mb-4">
@@ -770,13 +931,15 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 <p className="text-gray-400 text-sm italic mb-6 leading-relaxed">
                   {geoRestricted === 'CH' 
                     ? '"Ich war erst skeptisch, aber nach der Verifizierung hat alles geklappt. Die Umfragen zahlen tatsächlich gut aus, ideal für nebenbei."'
-                    : '"Estava cética no início, mas após a verificação tudo funcionou perfeitamente. As sondagens pagam realmente bem, ideal para rendimento extra."'}
+                    : geoRestricted === 'PT'
+                    ? '"Estava cética no início, mas após a verificação tudo funcionou perfeitamente. As sondagens pagam realmente bem, ideal para rendimento extra."'
+                    : '"I was a bit skeptical, but after the quick verification, it worked perfectly. The high-paying surveys are legit and great for extra income."'}
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gray-800" />
                   <div>
-                    <p className="text-white font-bold text-sm">{geoRestricted === 'CH' ? 'Markus B.' : 'João S.'}</p>
-                    <p className="text-gray-600 text-[10px] uppercase font-black">{geoRestricted === 'CH' ? 'Zürich, Schweiz' : 'Lisboa, Portugal'}</p>
+                    <p className="text-white font-bold text-sm">{geoRestricted === 'CH' ? 'Markus B.' : geoRestricted === 'PT' ? 'João S.' : 'Robert J.'}</p>
+                    <p className="text-gray-600 text-[10px] uppercase font-black">{geoRestricted === 'CH' ? 'Zürich, Schweiz' : geoRestricted === 'PT' ? 'Lisboa, Portugal' : 'Chicago, IL'}</p>
                   </div>
                 </div>
               </div>
@@ -787,13 +950,15 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 <p className="text-gray-400 text-sm italic mb-6 leading-relaxed">
                   {geoRestricted === 'CH'
                     ? '"Endlich ein Portal, das wirklich auf Schweizer Nutzer ausgerichtet ist. Die Apple-Optimierung ist top!"'
-                    : '"Finalmente um portal que é realmente focado no mercado português. A otimização para iPhone é excelente!"'}
+                    : geoRestricted === 'PT'
+                    ? '"Finalmente um portal que é realmente focado no mercado português. A otimização para iPhone é excelente!"'
+                    : '"Finally a rewards portal that works smoothly in the US. The interface is clean and it actually pays out."'}
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gray-800" />
                   <div>
-                    <p className="text-white font-bold text-sm">{geoRestricted === 'CH' ? 'Sarah M.' : 'Maria F.'}</p>
-                    <p className="text-gray-600 text-[10px] uppercase font-black">{geoRestricted === 'CH' ? 'Luzern, Schweiz' : 'Porto, Portugal'}</p>
+                    <p className="text-white font-bold text-sm">{geoRestricted === 'CH' ? 'Sarah M.' : geoRestricted === 'PT' ? 'Maria F.' : 'Emily D.'}</p>
+                    <p className="text-gray-600 text-[10px] uppercase font-black">{geoRestricted === 'CH' ? 'Luzern, Schweiz' : geoRestricted === 'PT' ? 'Porto, Portugal' : 'Austin, TX'}</p>
                   </div>
                 </div>
               </div>
@@ -804,63 +969,71 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 <p className="text-gray-400 text-sm italic mb-6 leading-relaxed">
                   {geoRestricted === 'CH'
                     ? '"Sehr einfache Abwicklung. Habe meine erste Prämie bereits nach zwei Tagen erhalten. Absolute Empfehlung."'
-                    : '"Processo muito simples. Recebi a minha primeira recompensa após apenas dois dias. Recomendo totalmente."'}
+                    : geoRestricted === 'PT'
+                    ? '"Processo muito simples. Recebi a minha primeira recompensa após apenas dois dias. Recomendo totalmente."'
+                    : '"Super easy process. Received my first reward in 24 hours. Highly recommended for anyone in the US."'}
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gray-800" />
                   <div>
-                    <p className="text-white font-bold text-sm">{geoRestricted === 'CH' ? 'Urs P.' : 'Tiago R.'}</p>
-                    <p className="text-gray-600 text-[10px] uppercase font-black">{geoRestricted === 'CH' ? 'Bern, Schweiz' : 'Braga, Portugal'}</p>
+                    <p className="text-white font-bold text-sm">{geoRestricted === 'CH' ? 'Urs P.' : geoRestricted === 'PT' ? 'Tiago R.' : 'Michael S.'}</p>
+                    <p className="text-gray-600 text-[10px] uppercase font-black">{geoRestricted === 'CH' ? 'Bern, Schweiz' : geoRestricted === 'PT' ? 'Braga, Portugal' : 'Seattle, WA'}</p>
                   </div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* FAQ Section - For CH and PT */}
-          {(geoRestricted === 'CH' || geoRestricted === 'PT') && (
+          {/* FAQ Section - For CH, PT, and US */}
+          {(geoRestricted === 'CH' || geoRestricted === 'PT' || geoRestricted === 'US') && (
             <div className="w-full max-w-3xl mx-auto text-left py-24 border-t border-white/5">
               <h2 className="text-3xl font-black text-white mb-12 flex items-center gap-3">
                 <HelpCircle className="w-8 h-8 text-[#22C55E]" />
-                {geoRestricted === 'CH' ? 'Häufig gestellte Fragen (FAQ)' : 'Perguntas Frequentes (FAQ)'}
+                {geoRestricted === 'CH' ? 'Häufig gestellte Fragen (FAQ)' : geoRestricted === 'PT' ? 'Perguntas Frequentes (FAQ)' : 'Frequently Asked Questions (FAQ)'}
               </h2>
               <div className="space-y-6">
                 <div className="p-6 bg-white/[0.02] rounded-2xl border border-white/5">
                   <h4 className="text-white font-bold mb-2">
-                    {geoRestricted === 'CH' ? 'Wie viel kann ich verdienen?' : 'Quanto posso ganhar?'}
+                    {geoRestricted === 'CH' ? 'Wie viel kann ich verdienen?' : geoRestricted === 'PT' ? 'Quanto posso ganhar?' : 'How much can I earn?'}
                   </h4>
                   <p className="text-gray-500 text-sm">
                     {geoRestricted === 'CH' 
                       ? 'Die Vergütung variiert je nach Umfragetyp. Top-User in der Schweiz verdienen bis zu 300 CHF monatlich.'
-                      : 'A remuneração varia conforme o tipo de sondagem. Os utilizadores ativos em Portugal ganham até 250 € mensais.'}
+                      : geoRestricted === 'PT'
+                      ? 'A remuneração varia conforme o tipo de sondagem. Os utilizadores ativos em Portugal ganham até 250 € mensais.'
+                      : 'Earnings vary based on survey volume. Active users in the US can earn between $10 to $300 per month.'}
                   </p>
                 </div>
                 <div className="p-6 bg-white/[0.02] rounded-2xl border border-white/5">
                   <h4 className="text-white font-bold mb-2">
-                    {geoRestricted === 'CH' ? 'Sind meine Daten sicher?' : 'Os meus dados estão seguros?'}
+                    {geoRestricted === 'CH' ? 'Sind meine Daten sicher?' : geoRestricted === 'PT' ? 'Os meus dados estão seguros?' : 'Is my data secure?'}
                   </h4>
                   <p className="text-gray-500 text-sm">
                     {geoRestricted === 'CH'
                       ? 'Ja, wir nutzen modernste SSL-Verschlüsselung. Ihre Daten werden niemals ohne Zustimmung weitergegeben.'
-                      : 'Sim, utilizamos encriptação SSL de última geração. Os seus dados nunca são partilhados sem o seu consentimento.'}
+                      : geoRestricted === 'PT'
+                      ? 'Sim, utilizamos encriptação SSL de última geração. Os seus dados nunca são partilhados sem o seu consentimento.'
+                      : 'Yes, we use enterprise-grade SSL encryption. Your data is handled with strict privacy protocols and never shared without consent.'}
                   </p>
                 </div>
                 <div className="p-6 bg-white/[0.02] rounded-2xl border border-white/5">
                   <h4 className="text-white font-bold mb-2">
-                    {geoRestricted === 'CH' ? 'Wie erfolgt die Auszahlung?' : 'Como é feito o pagamento?'}
+                    {geoRestricted === 'CH' ? 'Wie erfolgt die Auszahlung?' : geoRestricted === 'PT' ? 'Como é feito o pagamento?' : 'How do I get paid?'}
                   </h4>
                   <p className="text-gray-500 text-sm">
                     {geoRestricted === 'CH'
                       ? 'Sie können wählen zwischen PayPal, Banküberweisung oder verschiedenen Gutscheinen lokaler Anbieter wie Migros oder Coop.'
-                      : 'Pode escolher entre PayPal, transferência bancária ou diversos cartões presente de lojas como Continente ou Amazon.'}
+                      : geoRestricted === 'PT'
+                      ? 'Pode escolher entre PayPal, transferência bancária ou diversos cartões presente de lojas como Continente ou Amazon.'
+                      : 'You can choose from PayPal, Direct Deposit, or various gift cards including Amazon, Starbucks, and Walmart.'}
                   </p>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Schema.org for SEO - Only if CH Restricted */}
-          {(geoRestricted === 'CH' || geoRestricted === 'PT') && (
+          {/* Schema.org for SEO - For CH, PT, and US */}
+          {(geoRestricted === 'CH' || geoRestricted === 'PT' || geoRestricted === 'US') && (
             <script type="application/ld+json">
               {JSON.stringify({
                 "@context": "https://schema.org",
@@ -868,18 +1041,18 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 "mainEntity": [
                   {
                     "@type": "Question",
-                    "name": geoRestricted === 'CH' ? "Wie viel kann ich verdienen?" : "Quanto posso ganhar?",
+                    "name": geoRestricted === 'CH' ? "Wie viel kann ich verdienen?" : geoRestricted === 'PT' ? "Quanto posso ganhar?" : "How much can I earn?",
                     "acceptedAnswer": {
                       "@type": "Answer",
-                      "text": geoRestricted === 'CH' ? "Die Vergütung variiert je nach Umfragetyp. Top-User in der Schweiz verdienen bis zu 300 CHF monatlich." : "A remuneração varia conforme o tipo de sondagem. Os utilizadores ativos em Portugal ganham até 250 € mensais."
+                      "text": geoRestricted === 'CH' ? "Die Vergütung variiert je nach Umfragetyp. Top-User in der Schweiz verdienen bis zu 300 CHF monatlich." : geoRestricted === 'PT' ? "A remuneração varia conforme o tipo de sondagem. Os utilizadores ativos em Portugal ganham até 250 € mensais." : "Earnings vary based on survey volume. Active users in the US can earn between $10 to $300 per month."
                     }
                   },
                   {
                     "@type": "Question",
-                    "name": geoRestricted === 'CH' ? "Sind meine Daten sicher?" : "Os meus dados estão seguros?",
+                    "name": geoRestricted === 'CH' ? "Sind meine Daten sicher?" : geoRestricted === 'PT' ? "Os meus dados estão seguros?" : "Is my data secure?",
                     "acceptedAnswer": {
                       "@type": "Answer",
-                      "text": geoRestricted === 'CH' ? "Ja, wir nutzen modernste SSL-Verschlüsselung. Ihre Daten werden niemals ohne Zustimmung weitergegeben." : "Sim, utilizamos encriptação SSL de última geração. Os seus dados nunca são partilhados sem o seu consentimento."
+                      "text": geoRestricted === 'CH' ? "Ja, wir nutzen modernste SSL-Verschlüsselung. Ihre Daten werden niemals ohne Zustimmung weitergegeben." : geoRestricted === 'PT' ? "Sim, utilizamos encriptação SSL de última geração. Os seus dados nunca são partilhados sem o seu consentimento." : "Yes, we use enterprise-grade SSL encryption. Your data is handled with strict privacy protocols and never shared without consent."
                     }
                   }
                 ]
@@ -959,6 +1132,10 @@ export default function App() {
         />
         <Route 
           path="/surveys" 
+          element={<SurveysPage />} 
+        />
+        <Route 
+          path="/surveys-ios" 
           element={
             <LandingPage 
               offerUrl="https://singingfiles.com/show.php?l=0&u=2520769&id=74817"
@@ -1002,6 +1179,42 @@ export default function App() {
               description="Verifique a sua elegibilidade para sondagens pagas premium em Portugal. Ganhe recompensas no seu iPhone hoje."
               geoRestricted="PT"
               deviceRestricted="Apple"
+            />
+          } 
+        />
+        <Route 
+          path="/usa-surveys-ios" 
+          element={
+            <LandingPage 
+              offerUrl="https://singingfiles.com/show.php?l=0&u=2520769&id=US_IOS_ID"
+              title="USA Paid Surveys | High-Value Rewards"
+              description="Check your eligibility for premium paid surveys in the United States. Reward opportunities for iPhone users."
+              geoRestricted="US"
+              deviceRestricted="Apple"
+            />
+          } 
+        />
+        <Route 
+          path="/usa-surveys-desktop" 
+          element={
+            <LandingPage 
+              offerUrl="https://singingfiles.com/show.php?l=0&u=2520769&id=US_DESKTOP_ID"
+              title="Premium US Research | Market Insights"
+              description="Verify your status for premium market research surveys in the US. Desktop optimized rewards."
+              geoRestricted="US"
+              deviceRestricted="Desktop"
+            />
+          } 
+        />
+        <Route 
+          path="/usa-surveys-android" 
+          element={
+            <LandingPage 
+              offerUrl="https://singingfiles.com/show.php?l=0&u=2520769&id=74463"
+              title="USA Mobile Rewards | Fast Payouts"
+              description="Get paid to share your opinion on Android in the USA. Quick verification for mobile users."
+              geoRestricted="US"
+              deviceRestricted="Android"
             />
           } 
         />
