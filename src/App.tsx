@@ -1,5 +1,5 @@
-import { motion } from "motion/react";
-import { Shield, ChevronRight, AlertTriangle, Zap, Clock, CheckCircle2, Menu, X, Info, Lock, Home, Mail, Globe } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { Shield, ChevronRight, AlertTriangle, Zap, Clock, CheckCircle2, Menu, X, Info, Lock, Home, Mail, Globe, Star, MessageSquare, Award, ExternalLink, HelpCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 
@@ -8,8 +8,62 @@ interface LandingPageProps {
   title: string;
   description: string;
   geoRestricted?: 'CH';
-  deviceRestricted?: 'Apple' | 'Desktop';
+  deviceRestricted?: 'Apple' | 'Desktop' | 'Android';
 }
+
+const LiveNotifications = ({ region }: { region?: string }) => {
+  const [notification, setNotification] = useState<{name: string, city: string, amount: string} | null>(null);
+  
+  // Only show notifications for specific regions to maintain relevance
+  if (region !== 'CH') return null;
+
+  const swissNames = ["Lukas", "Elena", "Marc", "Sophie", "Thomas", "Petra", "Beat", "Ursula", "Matthias", "Claudia"];
+  const swissCities = ["Zürich", "Genf", "Basel", "Bern", "Lausanne", "Winterthur", "St. Gallen", "Luzern", "Lugano", "Biel"];
+  const amounts = ["15.00 CHF", "25.00 CHF", "10.00 CHF", "50.00 CHF", "20.00 CHF"];
+
+  useEffect(() => {
+    const showNotification = () => {
+      const name = swissNames[Math.floor(Math.random() * swissNames.length)];
+      const city = swissCities[Math.floor(Math.random() * swissCities.length)];
+      const amount = amounts[Math.floor(Math.random() * amounts.length)];
+      
+      setNotification({ name, city, amount });
+      
+      setTimeout(() => setNotification(null), 5000);
+    };
+
+    const interval = setInterval(showNotification, 12000);
+    setTimeout(showNotification, 3000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="fixed bottom-6 left-6 z-[100] pointer-events-none">
+      <AnimatePresence>
+        {notification && (
+          <motion.div
+            initial={{ opacity: 0, x: -50, scale: 0.8 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: -20, scale: 0.9 }}
+            className="bg-[#0A0C0B] border border-[#22C55E]/30 p-4 rounded-2xl shadow-2xl flex items-center gap-4 max-w-[280px] backdrop-blur-xl"
+          >
+            <div className="w-10 h-10 rounded-full bg-[#22C55E]/20 flex items-center justify-center shrink-0">
+              <CheckCircle2 className="w-5 h-5 text-[#22C55E]" />
+            </div>
+            <div>
+              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-tighter">Auszahlung Bestätigt</p>
+              <p className="text-sm text-white font-medium">
+                <span className="font-bold text-[#22C55E]">{notification.name}</span> aus {notification.city}
+              </p>
+              <p className="text-xs text-gray-500">erhielt <span className="text-white font-mono">{notification.amount}</span></p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -389,7 +443,7 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
     const runChecks = async () => {
       // 0. Robust Bot Bypass for SEO & Inspection Tools
       const ua = navigator.userAgent.toLowerCase();
-      const isBot = /bot|googlebot|crawler|spider|robot|crawling|bingbot|yandex|slurp|baiduspider|facebookexternalhit|whatsapp|telegrambot/i.test(ua);
+      const isBot = /bot|google|search|crawler|spider|robot|crawling|bing|yandex|slurp|baiduspider|facebookexternalhit|whatsapp|telegrambot/i.test(ua);
       
       if (isBot) {
         if (isMounted) {
@@ -409,6 +463,12 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
       } else if (deviceRestricted === 'Desktop') {
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         if (isMobile) {
+          if (isMounted) setVerificationStatus('device_denied');
+          return;
+        }
+      } else if (deviceRestricted === 'Android') {
+        const isAndroid = /Android/i.test(navigator.userAgent);
+        if (!isAndroid) {
           if (isMounted) setVerificationStatus('device_denied');
           return;
         }
@@ -505,10 +565,14 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
     return (
       <div className="min-h-screen bg-[#070908] text-white flex flex-col items-center justify-center p-6 text-center">
         <Lock className="w-16 h-16 text-[#22C55E] mb-6 opacity-50" />
-        <h1 className="text-3xl font-black mb-4">{deviceRestricted === 'Apple' ? 'APPLE DEVICE REQUIRED' : 'DESKTOP REQUIRED'}</h1>
+        <h1 className="text-3xl font-black mb-4">
+          {deviceRestricted === 'Apple' ? 'APPLE DEVICE REQUIRED' : deviceRestricted === 'Android' ? 'ANDROID DEVICE REQUIRED' : 'DESKTOP REQUIRED'}
+        </h1>
         <p className="text-gray-400 max-w-md leading-relaxed font-medium">
           {deviceRestricted === 'Apple' 
             ? 'This rewards portal is exclusively available for Apple OS users (iOS/macOS). Your system scan detected a different operating platform.'
+            : deviceRestricted === 'Android'
+            ? 'Dieses Portal ist ausschließlich für Android-Nutzer in der Schweiz verfügbar. Bitte verwenden Sie Ihr Android-Smartphone.'
             : 'Diese Umfragen sind exklusiv für Desktop-Benutzer optimiert. Bitte nutzen Sie einen Computer oder Laptop für den Zugriff.'
           }
         </p>
@@ -519,6 +583,8 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
 
   return (
     <div className="min-h-screen bg-[#070908] text-[#E0E0E0] selection:bg-[#22C55E]/30 selection:text-white pt-16">
+      <LiveNotifications region={geoRestricted} />
+      
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
         <div className="flex flex-col items-center text-center">
           
@@ -531,15 +597,37 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#22C55E] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#22C55E]"></span>
             </span>
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22C55E]">System Online: Verification Active</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#22C55E]">
+              {geoRestricted === 'CH' ? 'ZERTIFIZIERT FÜR SCHWEIZ IP' : 'System Online: Verification Active'}
+            </span>
           </motion.div>
+
+          {geoRestricted === 'CH' && (
+            <div className="flex gap-4 mb-6">
+              <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 rounded-lg border border-white/10">
+                <div className="w-4 h-3 bg-red-600 relative overflow-hidden flex items-center justify-center">
+                    <div className="w-full h-0.5 bg-white absolute"></div>
+                    <div className="w-0.5 h-full bg-white absolute"></div>
+                </div>
+                <span className="text-[10px] font-bold text-gray-400">CH-RESIDENT</span>
+              </div>
+              <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 rounded-lg border border-white/10">
+                <Shield className="w-3 h-3 text-[#22C55E]" />
+                <span className="text-[10px] font-bold text-gray-400">SSL SECURE</span>
+              </div>
+            </div>
+          )}
 
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.95] max-w-4xl mb-6"
           >
-            SECURE YOUR <span className="text-[#22C55E]">ELIGIBILITY</span> BEFORE ACCESS EXPIRES
+            {geoRestricted === 'CH' ? (
+              <>SICHERN SIE IHRE <span className="text-[#22C55E]">BERECHTIGUNG</span> BEVOR DIE FRIST ABLÄUFT</>
+            ) : (
+              <>SECURE YOUR <span className="text-[#22C55E]">ELIGIBILITY</span> BEFORE ACCESS EXPIRES</>
+            )}
           </motion.h1>
 
           <motion.p 
@@ -548,7 +636,9 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
             transition={{ delay: 0.1 }}
             className="text-lg md:text-xl text-gray-500 max-w-2xl font-medium leading-relaxed mb-12"
           >
-            The final verification window for premium rewards is now open. Automated eligibility checks are currently being processed.
+            {geoRestricted === 'CH' 
+              ? 'Das finale Zeitfenster für exklusive Schweizer Prämien ist jetzt geöffnet. Die automatisierte Überprüfung läuft.'
+              : 'The final verification window for premium rewards is now open. Automated eligibility checks are currently being processed.'}
           </motion.p>
 
           <motion.div 
@@ -560,23 +650,27 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
             <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
               <div className="flex items-center gap-2 text-xs font-bold text-gray-400">
                 <Shield className="w-4 h-4 text-[#22C55E]" />
-                ENCRYPTED PORTAL
+                {geoRestricted === 'CH' ? 'VERSCHLÜSSELTES PORTAL' : 'ENCRYPTED PORTAL'}
               </div>
               <div className="text-[11px] font-mono text-gray-600 bg-white/5 px-2 py-0.5 rounded">
-                RX-992-B
+                RX-992-CH
               </div>
             </div>
 
             <div className="grid grid-cols-2 border-b border-white/5">
               <div className="p-6 border-r border-white/5 text-left">
-                <div className="text-[10px] uppercase tracking-widest font-bold text-gray-600 mb-1">Time Remaining</div>
+                <div className="text-[10px] uppercase tracking-widest font-bold text-gray-600 mb-1">
+                  {geoRestricted === 'CH' ? 'RECHZEIT' : 'Time Remaining'}
+                </div>
                 <div className="text-2xl font-black text-white font-mono flex items-center gap-2">
                   <Clock className="w-5 h-5 text-yellow-500/50" />
                   {formatTime(timeLeft)}
                 </div>
               </div>
               <div className="p-6 text-left">
-                <div className="text-[10px] uppercase tracking-widest font-bold text-gray-600 mb-1">Spots Left</div>
+                <div className="text-[10px] uppercase tracking-widest font-bold text-gray-600 mb-1">
+                  {geoRestricted === 'CH' ? 'PLÄTZE FREI' : 'Spots Left'}
+                </div>
                 <div className="text-2xl font-black text-white font-mono flex items-center gap-2">
                   <Zap className="w-5 h-5 text-[#22C55E]/50" />
                   0{spotsLeft}
@@ -590,8 +684,12 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                   <CheckCircle2 className="w-4 h-4 text-[#22C55E]" />
                 </div>
                 <div className="text-left">
-                  <h4 className="text-sm font-bold text-white">Geographic Scan Completed</h4>
-                  <p className="text-[11px] text-gray-500">Region eligibility confirmed.</p>
+                  <h4 className="text-sm font-bold text-white">
+                    {geoRestricted === 'CH' ? 'Geografischer Scan abgeschlossen' : 'Geographic Scan Completed'}
+                  </h4>
+                  <p className="text-[11px] text-gray-500">
+                    {geoRestricted === 'CH' ? 'Region Schweiz bestätigt.' : 'Region eligibility confirmed.'}
+                  </p>
                 </div>
               </div>
               
@@ -600,8 +698,12 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                   <CheckCircle2 className="w-4 h-4 text-[#22C55E]" />
                 </div>
                 <div className="text-left">
-                  <h4 className="text-sm font-bold text-white">System Handshake Active</h4>
-                  <p className="text-[11px] text-gray-500">Automated status check complete.</p>
+                  <h4 className="text-sm font-bold text-white">
+                    {geoRestricted === 'CH' ? 'Geräteprüfung OK' : 'System Handshake Active'}
+                  </h4>
+                  <p className="text-[11px] text-gray-500">
+                    {geoRestricted === 'CH' ? 'Kompatibilität verifiziert.' : 'Automated status check complete.'}
+                  </p>
                 </div>
               </div>
 
@@ -610,7 +712,7 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 className="w-full group relative bg-[#22C55E] text-black h-16 rounded-2xl font-black text-lg tracking-tight overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
-                  VERIFY ELIGIBILITY NOW
+                  {geoRestricted === 'CH' ? 'JETZT BERECHTIGUNG PRÜFEN' : 'VERIFY ELIGIBILITY NOW'}
                   <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-[#22C55E] via-[#4ade80] to-[#22C55E] opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -618,18 +720,121 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
             </div>
           </motion.div>
 
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-6 mb-24">
             <div className="flex items-center gap-4 py-4 px-8 bg-white/[0.02] rounded-full border border-white/5">
               <div className="flex -space-x-4">
-              <div className="w-11 h-11 rounded-full border-[3px] border-[#070908] bg-[#22C55E] relative z-30" />
-              <div className="w-11 h-11 rounded-full border-[3px] border-[#070908] bg-[#F59E0B] relative z-20" />
-              <div className="w-11 h-11 rounded-full border-[3px] border-[#070908] bg-[#22C55E] relative z-10" />
-            </div>
+                <div className="w-11 h-11 rounded-full border-[3px] border-[#070908] bg-[#22C55E] relative z-30" />
+                <div className="w-11 h-11 rounded-full border-[3px] border-[#070908] bg-[#F59E0B] relative z-20" />
+                <div className="w-11 h-11 rounded-full border-[3px] border-[#070908] bg-[#22C55E] relative z-10" />
+              </div>
               <p className="text-sm font-medium text-gray-400">
-                <span className="text-white font-bold">{claimedCount.toLocaleString()}</span> users checked today
+                <span className="text-white font-bold">{claimedCount.toLocaleString()}</span> {geoRestricted === 'CH' ? 'Schweizer Nutzer heute' : 'users checked today'}
               </p>
             </div>
           </div>
+
+          {/* Social Proof Section - Only for Swiss offers */}
+          {geoRestricted === 'CH' && (
+            <div className="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-left mb-24">
+              <div className="p-8 bg-white/[0.02] border border-white/5 rounded-3xl">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />)}
+                </div>
+                <p className="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                  "Ich war erst skeptisch, aber nach der Verifizierung hat alles geklappt. Die Umfragen zahlen tatsächlich gut aus, ideal für nebenbei."
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-800" />
+                  <div>
+                    <p className="text-white font-bold text-sm">Markus B.</p>
+                    <p className="text-gray-600 text-[10px] uppercase font-black">Zürich, Schweiz</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8 bg-white/[0.02] border border-white/5 rounded-3xl">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />)}
+                </div>
+                <p className="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                  "Endlich ein Portal, das wirklich auf Schweizer Nutzer ausgerichtet ist. Die Apple-Optimierung ist top!"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-800" />
+                  <div>
+                    <p className="text-white font-bold text-sm">Sarah M.</p>
+                    <p className="text-gray-600 text-[10px] uppercase font-black">Luzern, Schweiz</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8 bg-white/[0.02] border border-white/5 rounded-3xl">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />)}
+                </div>
+                <p className="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                  "Sehr einfache Abwicklung. Habe meine erste Prämie bereits nach zwei Tagen erhalten. Absolute Empfehlung."
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-800" />
+                  <div>
+                    <p className="text-white font-bold text-sm">Urs P.</p>
+                    <p className="text-gray-600 text-[10px] uppercase font-black">Bern, Schweiz</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* FAQ Section - Only for Swiss offers */}
+          {geoRestricted === 'CH' && (
+            <div className="w-full max-w-3xl mx-auto text-left py-24 border-t border-white/5">
+              <h2 className="text-3xl font-black text-white mb-12 flex items-center gap-3">
+                <HelpCircle className="w-8 h-8 text-[#22C55E]" />
+                Häufig gestellte Fragen (FAQ)
+              </h2>
+              <div className="space-y-6">
+                <div className="p-6 bg-white/[0.02] rounded-2xl border border-white/5">
+                  <h4 className="text-white font-bold mb-2">Wie viel kann ich verdienen?</h4>
+                  <p className="text-gray-500 text-sm">Die Vergütung variiert je nach Umfragetyp. Top-User in der Schweiz verdienen bis zu 300 CHF monatlich.</p>
+                </div>
+                <div className="p-6 bg-white/[0.02] rounded-2xl border border-white/5">
+                  <h4 className="text-white font-bold mb-2">Sind meine Daten sicher?</h4>
+                  <p className="text-gray-500 text-sm">Ja, wir nutzen modernste SSL-Verschlüsselung. Ihre Daten werden niemals ohne Zustimmung weitergegeben.</p>
+                </div>
+                <div className="p-6 bg-white/[0.02] rounded-2xl border border-white/5">
+                  <h4 className="text-white font-bold mb-2">Wie erfolgt die Auszahlung?</h4>
+                  <p className="text-gray-500 text-sm">Sie können wählen zwischen PayPal, Banküberweisung oder verschiedenen Gutscheinen lokaler Anbieter wie Migros oder Coop.</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Schema.org for SEO - Only if CH Restricted */}
+          {geoRestricted === 'CH' && (
+            <script type="application/ld+json">
+              {JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "Wie viel kann ich verdienen?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Die Vergütung variiert je nach Umfragetyp. Top-User in der Schweiz verdienen bis zu 300 CHF monatlich."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Sind meine Daten sicher?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Ja, wir nutzen modernste SSL-Verschlüsselung. Ihre Daten werden niemals ohne Zustimmung weitergegeben."
+                    }
+                  }
+                ]
+              })}
+            </script>
+          )}
         </div>
       </main>
     </div>
@@ -722,6 +927,18 @@ export default function App() {
               description="Exklusive Umfragen für Schweizer Desktop-Nutzer. Überprüfen Sie jetzt Ihre Berechtigung und fangen Sie an zu verdienen."
               geoRestricted="CH"
               deviceRestricted="Desktop"
+            />
+          } 
+        />
+        <Route 
+          path="/bezahlte-umfragen-android" 
+          element={
+            <LandingPage 
+              offerUrl="https://singingfiles.com/show.php?l=0&u=2520769&id=74816"
+              title="Android Umfragen Schweiz | Geld verdienen"
+              description="Verdienen Sie Geld mit Ihrem Android-Handy in der Schweiz. Top-bewertetes Umfrageportal für mobile Nutzer."
+              geoRestricted="CH"
+              deviceRestricted="Android"
             />
           } 
         />
