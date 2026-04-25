@@ -1,6 +1,6 @@
 {
   "name": "OfferEligibilityCheck",
-  "description": "High-converting mobile-optimized affiliate pre-lander for US reward eligibility.",
+  "description": "High-converting mobile-optimized affiliate pre-lander for automated reward eligibility checking.",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }
