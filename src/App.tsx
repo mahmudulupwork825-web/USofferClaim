@@ -346,6 +346,38 @@ const Footer = () => (
   </footer>
 );
 
+const KeywordCloud = () => (
+  <section className="bg-gray-50/50 py-12 border-t border-gray-100">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#5F6368] mb-6 text-center">Global Market Research Keyword Index</h3>
+      <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
+        {[
+          "Online earning", "Paid surveys", "Market research", "Side hustle", "Passive income", "Work from home", "Digital rewards", "Gift cards", "PayPal cash", "Remote work", 
+          "Extra income", "Survey money", "Legit rewards", "Cash back", "Online jobs", "Flexible work", "Earning apps", "Survey rewards", "Real money", "Online surveys for cash", 
+          "High paying surveys", "Survey sites", "Make money online", "Free gift cards", "Survey panels", "Market research studies", "Consumer insights", "Opinion rewards", 
+          "Digital consulting", "Peer feedback", "Product testing", "Beta testing", "App testing", "Website testing", "Focus groups", "Online focus groups", "Paid research", 
+          "Paid consumer trials", "Brand influence", "Consumer sentiment", "Retail feedback", "Shopping rewards", "Micro tasks", "Gig economy", "Freelance earning", 
+          "Digital nomads", "Location independent income", "Global rewards", "US surveys", "Switzerland surveys", "Portugal surveys", "European rewards", "American rewards", 
+          "Verified earners", "Eligibility check", "Geolocation verification", "Residential proxy check", "VPN detection", "Bot prevention", "Secure earning", "Private surveys", 
+          "Anonymous research", "Data privacy", "GDPR compliant", "CCPA rewards", "Swiss data protection", "Mobile surveys", "iOS rewards", "Android rewards", "Desktop earning", 
+          "High flow hours", "Corporate reload", "Midnight buzz", "Afternoon grind", "Weekend side hustle", "Student jobs", "Part time online", "Full time survey taker", 
+          "Expert panelist", "VIP rewards", "Elite dashboard", "Zenith SEO", "Heuristic routing", "Latency audit", "Browser entropy", "Fingerprint verification", "SOC2 compliance", 
+          "Cryptographic wipe", "Stateless processing", "Transmit security", "SSL encryption", "PayPal payout", "Bank transfer rewards", "Amazon gift cards", "Starbucks rewards", 
+          "Walmart gift cards", "Target gift cards", "Google Play credit", "Apple Store credit", "App store rewards", "Instant payout", "Daily earnings", "Daily surveys", 
+          "Unlimited offers", "Payout threshold", "Low withdrawal limit", "High success rate", "Verification filter", "Quality data", "Strategic earning", "Financial freedom", 
+          "Debt reduction", "Savings boost", "Inflation hedge", "Economic resilience", "Digital labor", "Intellectual property", "Idea generation", "Feedback loop", 
+          "User experience research", "Customer journey", "Product innovation", "Market analysis", "Trend spotting", "Forecasting rewards", "Sentiment analysis", 
+          "Qualitative research", "Quantitative research", "Longitudinal studies", "Diary studies", "Ethnographic research", "Market segmentation", "Target demographics", 
+          "Niche markets", "Luxury research", "Financial surveys", "Health surveys", "Technology polls", "Political sentiment", "Social research", "Educational rewards", 
+          "Professional opinions", "Industry experts", "B2B surveys", "B2C surveys", "Global marketplace", "Attention economy", "Verified status"
+        ].map((word, i) => (
+          <span key={i} className="text-[9px] text-[#9AA0A6] font-medium hover:text-[#4285F4] transition-colors whitespace-nowrap">{word}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
 const AboutPage = () => {
   useEffect(() => {
     document.title = "About Our Mission | OfferCheck - Global Reward Verification";
@@ -516,6 +548,7 @@ const AboutPage = () => {
           </div>
         </motion.div>
       </div>
+      <KeywordCloud />
     </div>
   );
 };
@@ -617,6 +650,7 @@ const PrivacyPage = () => {
           </div>
         </motion.div>
       </div>
+      <KeywordCloud />
     </div>
   );
 };
@@ -779,6 +813,7 @@ const BlogPostPage = () => {
           </div>
         </motion.div>
       </div>
+      <KeywordCloud />
     </div>
   );
 };
@@ -982,6 +1017,7 @@ const SurveysPage = () => {
           </div>
         </div>
       </div>
+      <KeywordCloud />
     </div>
   );
 };
@@ -1486,6 +1522,7 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
           )}
         </div>
       </main>
+      <KeywordCloud />
     </div>
   );
 };
