@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Shield, ChevronRight, AlertTriangle, Zap, Clock, CheckCircle2, Menu, X, Info, Lock, Home, Mail } from "lucide-react";
+import { Shield, ChevronRight, AlertTriangle, Zap, Clock, CheckCircle2, Menu, X, Info, Lock, Home, Mail, Globe } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 
@@ -15,6 +15,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
+    { name: "Surveys", path: "/surveys" },
     { name: "Gift Cards", path: "/gift-cards" },
     { name: "Cash Rewards", path: "/cash-rewards" },
     { name: "Coupons", path: "/coupons" },
@@ -106,6 +107,7 @@ const Footer = () => (
         <div>
           <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">Categories</h4>
           <ul className="space-y-4">
+            <li><Link to="/surveys" className="text-gray-500 hover:text-[#22C55E] text-sm transition-colors">Paid Surveys</Link></li>
             <li><Link to="/gift-cards" className="text-gray-500 hover:text-[#22C55E] text-sm transition-colors">Gift Cards</Link></li>
             <li><Link to="/cash-rewards" className="text-gray-500 hover:text-[#22C55E] text-sm transition-colors">Cash Rewards</Link></li>
             <li><Link to="/coupons" className="text-gray-500 hover:text-[#22C55E] text-sm transition-colors">Digital Coupons</Link></li>
@@ -355,11 +357,12 @@ const BlogPostPage = () => {
   );
 };
 
-const LandingPage = ({ offerUrl, title, description }: LandingPageProps) => {
+const LandingPage = ({ offerUrl, title, description, geoRestricted }: LandingPageProps & { geoRestricted?: 'CH' }) => {
   const [showContent, setShowContent] = useState(false);
   const [timeLeft, setTimeLeft] = useState(576); // 9:36 in seconds
   const [spotsLeft, setSpotsLeft] = useState(17);
   const [claimedCount, setClaimedCount] = useState(0);
+  const [geoStatus, setGeoStatus] = useState<'checking' | 'allowed' | 'denied'>('checking');
 
   useEffect(() => {
     // Update meta tags dynamically for SEO
@@ -378,6 +381,25 @@ const LandingPage = ({ offerUrl, title, description }: LandingPageProps) => {
     canonical.setAttribute('href', `https://offereligibilitycheck.com${location === '/' ? '/' : location}`);
     
     window.scrollTo(0, 0);
+
+    let isMounted = true;
+    if (geoRestricted) {
+      fetch('https://get.geojs.io/v1/ip/country.json')
+        .then(res => res.json())
+        .then(data => {
+          if (!isMounted) return;
+          if (data.country === geoRestricted) {
+            setGeoStatus('allowed');
+          } else {
+            setGeoStatus('denied');
+          }
+        })
+        .catch(() => {
+          if (isMounted) setGeoStatus('allowed'); // Fallback to allow if API fails
+        });
+    } else {
+      setGeoStatus('allowed');
+    }
 
     // Timer
     const timer = setInterval(() => {
@@ -405,12 +427,13 @@ const LandingPage = ({ offerUrl, title, description }: LandingPageProps) => {
     const fadeIn = setTimeout(() => setShowContent(true), 200);
 
     return () => {
+      isMounted = false;
       clearInterval(timer);
       clearInterval(spotsTimer);
       clearTimeout(fadeIn);
       cancelAnimationFrame(animationFrame);
     };
-  }, [title, description]);
+  }, [title, description, geoRestricted]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -421,6 +444,28 @@ const LandingPage = ({ offerUrl, title, description }: LandingPageProps) => {
   const handleCTA = () => {
     window.location.href = offerUrl;
   };
+
+  if (geoStatus === 'checking') {
+    return (
+      <div className="min-h-screen bg-[#070908] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[#22C55E]/20 border-t-[#22C55E] rounded-full animate-spin" />
+          <p className="text-gray-500 font-medium text-sm animate-pulse">Running Regional Verification...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (geoStatus === 'denied') {
+    return (
+      <div className="min-h-screen bg-[#070908] text-white flex flex-col items-center justify-center p-6 text-center">
+        <Globe className="w-16 h-16 text-yellow-500 mb-6 opacity-50" />
+        <h1 className="text-3xl font-black mb-4">REGION RESTRICTED</h1>
+        <p className="text-gray-400 max-w-md leading-relaxed font-medium">This high-value offer is currently optimized for residents of Switzerland. Your geographic scan indicates access from a different region.</p>
+        <Link to="/" className="mt-8 text-[#22C55E] border border-[#22C55E]/30 px-8 py-3 rounded-2xl font-bold hover:bg-[#22C55E]/10 transition-all">Return to Global Offers</Link>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#070908] text-[#E0E0E0] selection:bg-[#22C55E]/30 selection:text-white pt-16">
@@ -603,6 +648,17 @@ export default function App() {
               offerUrl="https://singingfiles.com/show.php?l=0&u=2520769&id=73209"
               title="Premium Digital Coupons | Verification Portal"
               description="Check your eligibility for exclusive digital coupons and savings. Valid for verified residents."
+            />
+          } 
+        />
+        <Route 
+          path="/surveys" 
+          element={
+            <LandingPage 
+              offerUrl="https://singingfiles.com/show.php?l=0&u=2520769&id=74817"
+              title="Bezahlte Umfragen Schweiz | Geld verdienen mit Ihrer Meinung"
+              description="Überprüfen Sie Ihre Berechtigung für hochbezahlte Online-Umfragen in der Schweiz. Verdienen Sie Geld mit Ihrer Meinung über unser automatisiertes Verifizierungsportal."
+              geoRestricted="CH"
             />
           } 
         />
