@@ -1,7 +1,4 @@
 User-agent: *
 Allow: /
 
-User-agent: Googlebot
-Allow: /
-
 Sitemap: https://offereligibilitycheck.com/sitemap.xml
