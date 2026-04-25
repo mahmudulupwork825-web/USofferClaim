@@ -71,7 +71,7 @@ export default function App() {
   };
 
   const handleCTA = () => {
-    window.location.href = "https://singingfiles.com/show.php?l=0&u=2520769&id=73805";
+    window.location.href = "https://singingfiles.com/show.php?l=0&u=2520769&id=73209";
   };
 
   if (geoStatus === 'denied') {
