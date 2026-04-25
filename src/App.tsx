@@ -387,6 +387,13 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
     let isMounted = true;
     
     const runChecks = async () => {
+      // 0. Bot Bypass for SEO
+      const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
+      if (isBot) {
+        if (isMounted) setVerificationStatus('allowed');
+        return;
+      }
+
       // 1. Device Check
       if (deviceRestricted === 'Apple') {
         const isApple = /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent);
