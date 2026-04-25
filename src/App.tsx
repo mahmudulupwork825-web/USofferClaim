@@ -12,38 +12,25 @@ export default function App() {
   const [timeLeft, setTimeLeft] = useState(576); // 9:36 in seconds
   const [spotsLeft, setSpotsLeft] = useState(17);
   const [claimedCount, setClaimedCount] = useState(0);
-  const [geoStatus, setGeoStatus] = useState<'loading' | 'allowed' | 'denied'>('loading');
+  const [geoStatus, setGeoStatus] = useState<'allowed' | 'denied'>('allowed');
 
   useEffect(() => {
     let isMounted = true;
     
-    // Quick Geo Check
+    // Quick Geo Check - runs in background without blocking initial render
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('test') === 'true') {
-      setGeoStatus('allowed');
-    } else {
-      // Set a strict timeout fallback - if geo check takes > 1.5s, just allow access to prevent "site not loading"
-      const geoTimeout = setTimeout(() => {
-        if (isMounted) {
-          setGeoStatus('allowed');
-        }
-      }, 1500);
-
+    if (urlParams.get('test') !== 'true') {
       fetch('https://get.geojs.io/v1/ip/country.json')
         .then(res => res.json())
         .then(data => {
-          clearTimeout(geoTimeout);
           if (!isMounted) return;
-          if (data.country === 'US') {
-            setGeoStatus('allowed');
-          } else {
+          if (data.country !== 'US') {
             setGeoStatus('denied');
           }
         })
         .catch(() => {
-          clearTimeout(geoTimeout);
-          if (!isMounted) return;
-          setGeoStatus('allowed');
+          // Fail open to ensure site loads
+          if (isMounted) setGeoStatus('allowed');
         });
     }
 
@@ -86,14 +73,6 @@ export default function App() {
   const handleCTA = () => {
     window.location.href = "https://YOUR-OFFER-LINK";
   };
-
-  if (geoStatus === 'loading') {
-    return (
-      <div className="min-h-screen bg-[#070908] flex items-center justify-center p-6">
-        <div className="w-10 h-10 border-4 border-[#22C55E]/20 border-t-[#22C55E] rounded-full animate-spin"></div>
-      </div>
-    );
-  }
 
   if (geoStatus === 'denied') {
     return (
