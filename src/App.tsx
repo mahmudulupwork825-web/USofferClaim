@@ -387,10 +387,15 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
     let isMounted = true;
     
     const runChecks = async () => {
-      // 0. Bot Bypass for SEO
-      const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
+      // 0. Robust Bot Bypass for SEO & Inspection Tools
+      const ua = navigator.userAgent.toLowerCase();
+      const isBot = /bot|googlebot|crawler|spider|robot|crawling|bingbot|yandex|slurp|baiduspider|facebookexternalhit|whatsapp|telegrambot/i.test(ua);
+      
       if (isBot) {
-        if (isMounted) setVerificationStatus('allowed');
+        if (isMounted) {
+          console.log("Bot detected as:", ua, "- Bypassing restrictions");
+          setVerificationStatus('allowed');
+        }
         return;
       }
 
