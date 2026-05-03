@@ -166,11 +166,10 @@ const Navbar = () => {
   const location = useLocation();
 
   const navLinks = [
-    { name: "Credit Score", path: "/surveys" },
-    { name: "Monitoring", path: "/gift-cards" },
-    { name: "Tenant Tips", path: "/cash-rewards" },
-    { name: "Success Stories", path: "/earn-10-online" },
-    { name: "Sign Up", path: "/signup" },
+    { name: "Intelligence Hub", path: "/surveys" },
+    { name: "Audit Protocols", path: "/verify-status" },
+    { name: "Housing Tips", path: "/blog/credit-check-importance" },
+    { name: "Security Vault", path: "/signup" },
   ];
 
   return (
@@ -1164,8 +1163,8 @@ const SurveysPage = () => {
   const surveys = [
     {
       id: "74817",
-      title: "Bezahlte Umfragen Schweiz (iOS)",
-      description: "Exklusiv für Apple-Nutzer in der Schweiz. Verdienen Sie Geld mit Ihrer Meinung.",
+      title: "FCRA Recovery Node (CH-iOS)",
+      description: "Advanced protocol for Swiss iPhone users to audited and recovered discrepancies.",
       path: "/surveys-ios",
       region: "CH",
       device: "Apple",
@@ -1173,17 +1172,17 @@ const SurveysPage = () => {
     },
     {
       id: "74815",
-      title: "Top Bezahlte Umfragen Schweiz (Desktop)",
-      description: "Optimiert für Desktop-Nutzer. Höchste Vergütung für detaillierte Umfragen.",
+      title: "Security Portfolio (CH-Desktop)",
+      description: "Optimized for desktop monitoring. Comprehensive analysis of Swiss financial nodes.",
       path: "/umfragen-schweiz",
       region: "CH",
       device: "Desktop",
-      color: "bg-[#EA4335]"
+      color: "bg-[#1a1a1a]"
     },
     {
       id: "74816",
-      title: "Android Umfragen Schweiz",
-      description: "Verdienen Sie Geld direkt auf Ihrem Android-Smartphone. Bequem von überall.",
+      title: "Integrity Monitor (CH-Android)",
+      description: "Real-time Android monitoring for Swiss consumer compliance and data safety.",
       path: "/bezahlte-umfragen-android",
       region: "CH",
       device: "Android",
@@ -1191,8 +1190,8 @@ const SurveysPage = () => {
     },
     {
       id: "70892",
-      title: "Sondagens Pagas Portugal",
-      description: "Ganhe recompensas no seu iPhone respondendo a sondagens premium em Portugal.",
+      title: "Advocacy Panel (PT-iOS)",
+      description: "Identity protection and tenant rights advocacy specialized for Portuguese iPhone users.",
       path: "/ganhar-dinheiro-portugal",
       region: "PT",
       device: "Apple",
@@ -1200,8 +1199,8 @@ const SurveysPage = () => {
     },
     {
       id: "US-IOS",
-      title: "USA Paid Surveys (iOS)",
-      description: "Exclusive rewards for iPhone users in the United States. Start earning today.",
+      title: "US Identity Audit (iOS)",
+      description: "Comprehensive US-based iPhone security and credit surveillance protocol.",
       path: "/usa-surveys-ios",
       region: "US",
       device: "Apple",
@@ -1209,17 +1208,17 @@ const SurveysPage = () => {
     },
     {
       id: "US-DESKTOP",
-      title: "Premium US Research (Desktop)",
-      description: "High-paying market research for US desktop users. No app installation required.",
+      title: "US Compliance Node (Desktop)",
+      description: "High-level regulatory compliance monitoring for US desktop-based portfolios.",
       path: "/usa-surveys-desktop",
       region: "US",
       device: "Desktop",
-      color: "bg-[#6366F1]"
+      color: "bg-[#1a1a1a]"
     },
     {
       id: "US-ANDROID",
-      title: "USA Mobile Rewards (Android)",
-      description: "Earn rewards on your Android device. Quick tasks and instant eligibility checks.",
+      title: "US Recovery Bridge (Android)",
+      description: "Android-optimized bridge for identity recovery and monitoring in all 50 US States.",
       path: "/usa-surveys-android",
       region: "US",
       device: "Android",
@@ -1308,12 +1307,14 @@ const SurveysPage = () => {
 
         {/* Financial Empowerment Educational Section */}
         <div className="prose max-w-none text-[#5F6368] space-y-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-black text-[#202124] mb-8 uppercase tracking-tight">The Era of <span className="text-[#4285F4]">Financial Sovereignty</span></h2>
-              <p className="text-xl leading-relaxed mb-8 font-medium">Financial literacy is the ultimate equalizing force in the American economy. In {new Date().getFullYear()}, the ability to navigate credit systems and housing transparency is no longer optional—it is a survival skill.</p>
-              <p className="text-lg leading-relaxed mb-6">For residents across the United States, your financial identity is being analyzed by algorithms every time you apply for a job, a mortgage, or a simple apartment lease. Understanding the "Why" behind these systems gives you the leverage to advocate for your own economic future.</p>
-              <p className="text-lg leading-relaxed">Offer Eligibility Check exists to bridge the information gap. We provide the tools, the guides, and the advocacy resources necessary to ensure you are never blindsided by a bureau report or a tenant screening inquiry. Our mission is to democratize financial intelligence, providing the same level of oversight and protection usually reserved for high-net-worth individuals.</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <h2 className="text-5xl font-black text-[#1a1a1a] uppercase font-display tracking-tighter leading-[0.9]">The Era of <br /><span className="text-blue-600">Financial Sovereignty</span></h2>
+              <p className="text-2xl text-[#5f6368] font-serif italic leading-relaxed">"Knowledge is the ultimate leverage. In the modern economy, your financial identity is your most valuable asset."</p>
+              <div className="space-y-4 text-lg leading-relaxed font-medium">
+                <p>For residents across the United States, your financial identity is being analyzed by algorithms every time you apply for a job, a mortgage, or a simple apartment lease. Understanding the "Why" behind these systems gives you the leverage to advocate for your own economic future.</p>
+                <p>Offer Eligibility Check exists to bridge the information gap. We provide the tools, the guides, and the advocacy resources necessary to ensure you are never blindsided by a bureau report or a tenant screening inquiry.</p>
+              </div>
             </div>
              <div className="p-12 bg-gray-50 border border-gray-100 shadow-xl rounded-[3rem]">
                <div className="space-y-10">
@@ -1695,6 +1696,58 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 </p>
                 <div className="flex gap-2">
                    {[1,2,3].map(i => <div key={i} className="h-1 w-8 bg-blue-600/20 rounded-full" />)}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            <div className="space-y-12">
+              <h2 className="text-5xl font-black text-[#1a1a1a] uppercase font-display tracking-tighter leading-[0.9]">Common Interest <br /><span className="text-blue-600">Protocols.</span></h2>
+              <p className="text-xl text-[#5F6368] font-serif italic max-w-xl">"Advocacy is built on transparency. We simplify the complexities of modern credit reporting so you can act with confidence."</p>
+              
+              <div className="space-y-6">
+                {[
+                  { q: "Will an audit impact my credit score?", a: "No. Our audits utilize 'Soft Inquiry' protocols. Your FICO and Vantage scores remain untouched during our surveillance process." },
+                  { q: "What happens to my personal data?", a: "We operate under a 'Zero-Retention' policy. Encrypted tokens are used for verification, and sensitive data is purged immediately after your session." },
+                  { q: "How does this help with tenant screening?", a: "Landlords use secondary bureaus that often contain errors. We give you the same tools they use, allowing you to dispute inaccuracies before applying." }
+                ].map((item, i) => (
+                  <div key={i} className="group p-8 bg-gray-50 rounded-[2rem] border border-gray-100 hover:bg-white hover:shadow-xl transition-all">
+                    <h4 className="text-xl font-black uppercase font-display mb-4 flex items-center gap-4">
+                      <span className="text-blue-600">0{i+1}.</span> {item.q}
+                    </h4>
+                    <p className="text-[#5F6368] font-medium leading-relaxed">{item.a}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#1a1a1a] rounded-[4rem] p-16 text-white relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600 rounded-full blur-[120px] opacity-20 -mr-32 -mt-32 group-hover:scale-150 transition-transform duration-1000" />
+              
+              <div className="relative z-10 space-y-12">
+                <div className="w-20 h-20 bg-white/10 rounded-3xl flex items-center justify-center">
+                  <ShieldCheck className="w-10 h-10 text-blue-400" />
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-4xl font-black uppercase font-display tracking-tighter italic">Regulatory Compliance</h3>
+                  <p className="text-white/60 leading-relaxed font-serif italic text-lg">
+                    "Our architecture is designed to exceed the standards set by the Fair Credit Reporting Act (FCRA) and the Consumer Financial Protection Bureau (CFPB)."
+                  </p>
+                </div>
+                <div className="pt-8 grid grid-cols-2 gap-8">
+                  <div>
+                    <div className="text-3xl font-black font-display text-blue-400 mb-1">AES-256</div>
+                    <div className="text-[10px] font-black uppercase tracking-widest text-white/40 font-display">Encryption Standard</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-black font-display text-blue-400 mb-1">24/7</div>
+                    <div className="text-[10px] font-black uppercase tracking-widest text-white/40 font-display">Active Surveillance</div>
+                  </div>
                 </div>
               </div>
             </div>
