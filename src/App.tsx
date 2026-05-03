@@ -1163,8 +1163,8 @@ const SurveysPage = () => {
   const surveys = [
     {
       id: "74817",
-      title: "FCRA Recovery Node (CH-iOS)",
-      description: "Advanced protocol for Swiss iPhone users to audited and recovered discrepancies.",
+      title: "Landlord Visibility Audit (iOS)",
+      description: "See the specific background data landlords in Switzerland access through Apple-verified secure nodes.",
       path: "/surveys-ios",
       region: "CH",
       device: "Apple",
@@ -1172,8 +1172,8 @@ const SurveysPage = () => {
     },
     {
       id: "74815",
-      title: "Security Portfolio (CH-Desktop)",
-      description: "Optimized for desktop monitoring. Comprehensive analysis of Swiss financial nodes.",
+      title: "Credit Strategy Portal (Desktop)",
+      description: "The definitive desktop-optimized guide for navigating Swiss financial reporting and score optimization.",
       path: "/umfragen-schweiz",
       region: "CH",
       device: "Desktop",
@@ -1181,8 +1181,8 @@ const SurveysPage = () => {
     },
     {
       id: "74816",
-      title: "Integrity Monitor (CH-Android)",
-      description: "Real-time Android monitoring for Swiss consumer compliance and data safety.",
+      title: "Identity Guard Monitor (Android)",
+      description: "Real-time Android notifications for credit shifts and identity inquiries across all major Swiss agencies.",
       path: "/bezahlte-umfragen-android",
       region: "CH",
       device: "Android",
@@ -1190,7 +1190,7 @@ const SurveysPage = () => {
     },
     {
       id: "70892",
-      title: "Advocacy Panel (PT-iOS)",
+      title: "Tenant Rights Advocacy (iOS)",
       description: "Identity protection and tenant rights advocacy specialized for Portuguese iPhone users.",
       path: "/ganhar-dinheiro-portugal",
       region: "PT",
@@ -1199,8 +1199,8 @@ const SurveysPage = () => {
     },
     {
       id: "US-IOS",
-      title: "US Identity Audit (iOS)",
-      description: "Comprehensive US-based iPhone security and credit surveillance protocol.",
+      title: "US Homebuyer Audit (iOS)",
+      description: "Comprehensive US-based iPhone security and housing application readiness protocol.",
       path: "/usa-surveys-ios",
       region: "US",
       device: "Apple",
@@ -1208,8 +1208,8 @@ const SurveysPage = () => {
     },
     {
       id: "US-DESKTOP",
-      title: "US Compliance Node (Desktop)",
-      description: "High-level regulatory compliance monitoring for US desktop-based portfolios.",
+      title: "Federal Compliance Node (Desktop)",
+      description: "High-level regulatory compliance monitoring for US desktop-based housing portfolios.",
       path: "/usa-surveys-desktop",
       region: "US",
       device: "Desktop",
@@ -1217,8 +1217,8 @@ const SurveysPage = () => {
     },
     {
       id: "US-ANDROID",
-      title: "US Recovery Bridge (Android)",
-      description: "Android-optimized bridge for identity recovery and monitoring in all 50 US States.",
+      title: "Identity Recovery Bridge (Android)",
+      description: "Android-optimized toolkit for identity recovery and monitoring in all 50 US States.",
       path: "/usa-surveys-android",
       region: "US",
       device: "Android",
@@ -1564,9 +1564,8 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 transition={{ delay: 0.1 }}
                 className="text-[clamp(3.5rem,9vw,6.5rem)] font-black leading-[0.82] tracking-tighter text-[#1a1a1a] font-display"
               >
-                Control Your <br />
-                <span className="text-[#4285F4]">Financial</span> <br />
-                Identity.
+                See What <br />
+                <span className="text-[#4285F4]">They</span> See.
               </motion.h1>
 
               <motion.p 
@@ -1575,7 +1574,7 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 transition={{ delay: 0.2 }}
                 className="text-2xl text-[#5F6368] font-serif italic leading-relaxed max-w-xl"
               >
-                "Offer Eligibility Check delivers surgical precision in consumer advocacy. Access real-time monitoring and identity protection tools designed for the modern regulatory landscape."
+                "Knowledge is the ultimate leverage. We reveal the background data used by banks and landlords, giving you the power to protect your financial legacy."
               </motion.p>
 
               <motion.div 
