@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Shield, ChevronRight, AlertTriangle, Zap, Clock, CheckCircle2, Menu, X, Info, Lock, Home, Mail, Globe, Star, MessageSquare, Award, ExternalLink, HelpCircle, Activity, TrendingUp, Database, BookOpen, Smartphone, ShieldCheck, ArrowRight } from "lucide-react";
+import { Shield, ChevronRight, AlertTriangle, Zap, Clock, CheckCircle2, Menu, X, Info, Lock, Home, Mail, Globe, Star, MessageSquare, Award, ExternalLink, HelpCircle, Activity, TrendingUp, Database, BookOpen, Smartphone, ShieldCheck, ArrowRight, Scale, ArrowUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 
@@ -9,6 +9,7 @@ interface LandingPageProps {
   description: string;
   geoRestricted?: 'CH' | 'PT' | 'US';
   deviceRestricted?: 'Apple' | 'Desktop' | 'Android';
+  isHome?: boolean;
 }
 
 const LiveNotifications = ({ region }: { region?: string }) => {
@@ -168,7 +169,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "Intelligence Hub", path: "/surveys" },
     { name: "Audit Protocols", path: "/verify-status" },
-    { name: "Housing Tips", path: "/blog/credit-check-importance" },
+    { name: "Resource Hub", path: "/resources" },
     { name: "Security Vault", path: "/signup" },
   ];
 
@@ -253,54 +254,57 @@ const Navbar = () => {
 };
 
 const Footer = () => (
-  <footer className="bg-white border-t border-gray-100 pt-20 pb-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-        <div className="col-span-1 md:col-span-2">
-          <Link to="/" className="flex items-center gap-2 mb-6">
-            <div className="w-8 h-8 rounded-lg bg-[#4285F4] flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-white stroke-[2.5]" />
+  <footer className="bg-white border-t border-gray-100 pt-32 pb-16">
+      <div className="max-w-7xl mx-auto px-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
+        <div className="col-span-1 md:col-span-2 space-y-8">
+          <Link to="/" className="flex items-center gap-4 group">
+            <div className="w-12 h-12 rounded-2xl bg-[#1a1a1a] flex items-center justify-center shadow-lg transition-transform group-hover:rotate-6">
+              <TrendingUp className="w-7 h-7 text-white stroke-[2.5]" />
             </div>
-            <span className="font-bold text-[#202124] tracking-tight text-xl">Offer Eligibility Check</span>
+            <div className="flex flex-col">
+              <span className="font-display font-black text-3xl text-[#1a1a1a] tracking-tight leading-none uppercase">OEC</span>
+              <span className="text-[9px] font-black text-[#5F6368] uppercase tracking-[0.3em] leading-tight font-display">Intelligence</span>
+            </div>
           </Link>
-          <p className="text-[#5F6368] text-sm leading-relaxed max-w-sm">
-            America's trusted financial literacy and consumer protection platform. We empower US residents with real-time credit monitoring and housing insights.
+          <p className="text-[#5F6368] text-lg font-serif italic leading-relaxed max-w-sm">
+            "Advocating for the individual in a data-driven world. We provide the technical transparency needed to navigate the American credit & housing landscape."
           </p>
+          <div className="flex gap-4">
+             <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors cursor-pointer border border-gray-100"><Globe className="w-5 h-5" /></div>
+             <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors cursor-pointer border border-gray-100"><Shield className="w-5 h-5" /></div>
+             <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors cursor-pointer border border-gray-100"><Lock className="w-5 h-5" /></div>
+          </div>
         </div>
         <div>
-          <h4 className="text-[#202124] font-bold mb-6 uppercase tracking-widest text-xs">Categories</h4>
+          <h4 className="text-[#1a1a1a] font-display font-black mb-8 uppercase tracking-widest text-[10px]">Operations</h4>
           <ul className="space-y-4">
-            <li><Link to="/surveys" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">Credit Monitoring</Link></li>
-            <li><Link to="/gift-cards" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">Tenant Screening</Link></li>
-            <li><Link to="/cash-rewards" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">Financial Tools</Link></li>
-            <li><Link to="/coupons" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">Digital Rewards</Link></li>
-            <li><Link to="/earn-10-online" className="text-[#4285F4] hover:text-[#3367D6] text-sm transition-colors font-bold underline decoration-[#4285F4]/30 underline-offset-4">Success Stories</Link></li>
-            <li><Link to="/blog/credit-check-importance" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors font-medium underline decoration-gray-200 underline-offset-4">US Credit Guide</Link></li>
-            <li><Link to="/signup" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors font-medium">Join Community</Link></li>
+            <li><Link to="/surveys" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-xs transition-colors font-display">Intelligence Hub</Link></li>
+            <li><Link to="/verify-status" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-xs transition-colors font-display">Audit Protocols</Link></li>
+            <li><Link to="/resources" className="text-blue-600 hover:text-blue-700 font-bold uppercase tracking-tight text-xs transition-colors font-display">Resource Hub</Link></li>
+            <li><Link to="/signup" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-xs transition-colors font-display">Security Vault</Link></li>
           </ul>
         </div>
         <div>
-          <h4 className="text-[#202124] font-bold mb-6 uppercase tracking-widest text-xs">Company</h4>
+          <h4 className="text-[#1a1a1a] font-display font-black mb-8 uppercase tracking-widest text-[10px]">Knowledge</h4>
           <ul className="space-y-4">
-            <li><Link to="/signup" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">Sign Up</Link></li>
-            <li><Link to="/about" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">About Us</Link></li>
-            <li><Link to="/privacy" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">Privacy Policy</Link></li>
-            <li><a href="mailto:support@offereligibilitycheck.com" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">Contact Support</a></li>
+            <li><Link to="/earn-10-online" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Earning Blueprint</Link></li>
+            <li><Link to="/blog/credit-check-importance" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Housing Guides</Link></li>
+            <li><Link to="/about" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">The Vision</Link></li>
+            <li><Link to="/privacy" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Privacy Stack</Link></li>
           </ul>
         </div>
       </div>
       
-      <div className="border-t border-gray-100 pt-10 flex flex-col md:flex-row items-center justify-between gap-6">
-        <p className="text-[11px] text-[#5F6368] font-medium">
-          © 2026 Offer Eligibility Check. All rights reserved.
-        </p>
-        <div className="flex items-center gap-6">
-          <div className="flex gap-4">
-             <Shield className="w-4 h-4 text-[#5F6368]" />
-             <Lock className="w-4 h-4 text-[#5F6368]" />
-             <CheckCircle2 className="w-4 h-4 text-[#5F6368]" />
-          </div>
+      <div className="border-t border-gray-100 pt-16 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="flex items-center gap-4">
+           <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#5F6368] font-display">OEC GLOBAL AUDIT v4.8</span>
+           <div className="h-4 w-px bg-gray-200" />
+           <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#5F6368] font-display">© 2026</span>
         </div>
+        <p className="max-w-md text-[9px] font-black text-[#5F6368] uppercase tracking-[0.1em] text-center md:text-right leading-relaxed font-display">
+          Offer Eligibility Check is an independent consumer advocacy entity. We are not a credit reporting agency. Our nodes provide heuristic data insights for educational purposes only.
+        </p>
       </div>
     </div>
   </footer>
@@ -929,6 +933,103 @@ const SignUpPage = () => {
   );
 };
 
+const ResourceHubPage = () => {
+  useEffect(() => {
+    document.title = "Consumer Resource Hub | Official Financial Advocacy Links - OEC";
+    window.scrollTo(0, 0);
+  }, []);
+
+  const resources = [
+    {
+      category: "US FEDERAL RESOURCES",
+      links: [
+        { name: "CFPB: Consumer Financial Protection Bureau", url: "https://www.consumerfinance.gov/", desc: "The primary US agency for protecting consumers in the financial sector." },
+        { name: "FTC: Federal Trade Commission", url: "https://www.ftc.gov/", desc: "Enforcing consumer protection laws and reporting identity theft." },
+        { name: "AnnualCreditReport.com", url: "https://www.annualcreditreport.com/", desc: "The only government-authorized source for your free annual credit reports." },
+        { name: "Social Security Administration (SSA)", url: "https://www.ssa.gov/", desc: "Protecting your Social Security number and retirement benefits." }
+      ]
+    },
+    {
+      category: "SWISS (CH) AUTHORITIES",
+      links: [
+        { name: "Federal Data Protection Commissioner (EDÖB)", url: "https://www.edoeb.admin.ch/", desc: "The governing body for data privacy and consumer rights in Switzerland." },
+        { name: "FINMA: Swiss Financial Market Supervisory Authority", url: "https://www.finma.ch/", desc: "Supervising banks, insurance companies, and financial intermediaries." },
+        { name: "Swiss Banking Ombudsman", url: "https://www.bankingombudsman.ch/", desc: "Neutral information and mediation for banking disputes in Switzerland." }
+      ]
+    },
+    {
+      category: "PORTUGUESE (PT) PROTECTIONS",
+      links: [
+        { name: "Banco de Portugal: Portal do Cliente Bancário", url: "https://clientebancario.bportugal.pt/", desc: "Official consumer portal of the Bank of Portugal." },
+        { name: "CNPD: Comissão Nacional de Proteção de Dados", url: "https://www.cnpd.pt/", desc: "Ensuring individual rights regarding personal data processing in Portugal." },
+        { name: "DECO PROTESTE", url: "https://www.deco.proteste.pt/", desc: "The leading consumer rights defense organization in Portugal." }
+      ]
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#fafafa] pt-32 pb-24">
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="space-y-16">
+          <div className="max-w-3xl space-y-6">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="inline-flex items-center gap-3 bg-white border border-gray-100 px-4 py-2 rounded-2xl shadow-sm"
+            >
+              <Database className="w-4 h-4 text-blue-600" />
+              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#5F6368] font-display">Verified Resource Catalog</span>
+            </motion.div>
+            <h1 className="text-6xl md:text-8xl font-black text-[#1a1a1a] tracking-tighter uppercase font-display leading-[0.85]">
+              Intelligence <br /><span className="text-blue-600">Archive.</span>
+            </h1>
+            <p className="text-xl text-[#5F6368] font-serif italic leading-relaxed border-l-4 border-blue-600 pl-8">
+              "A curated repository of official regulatory nodes and consumer advocacy documentation. Accessing these links does not impact your residency audit."
+            </p>
+          </div>
+
+          <div className="space-y-24">
+            {resources.map((group, i) => (
+              <div key={i} className="space-y-10">
+                <div className="flex items-center gap-6">
+                  <h2 className="text-2xl font-black tracking-widest text-[#1a1a1a] font-display shrink-0">{group.category}</h2>
+                  <div className="h-px w-full bg-gray-100" />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {group.links.map((link, j) => (
+                    <a 
+                      key={j}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group p-8 bg-white border border-gray-100 rounded-[2.5rem] hover:shadow-2xl transition-all flex flex-col justify-between min-h-[280px]"
+                    >
+                      <div className="space-y-6">
+                        <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
+                          <ExternalLink className="w-6 h-6" />
+                        </div>
+                        <h3 className="text-xl font-black uppercase font-display leading-tight group-hover:text-blue-600 transition-colors">
+                          {link.name}
+                        </h3>
+                        <p className="text-sm text-[#5F6368] font-medium leading-relaxed font-serif italic">
+                          "{link.desc}"
+                        </p>
+                      </div>
+                      <div className="pt-6 flex items-center gap-2 text-[10px] font-black tracking-widest text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity uppercase">
+                        Access Remote Node <ArrowRight className="w-3 h-3" />
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const CreditCheckGuidePage = () => {
   useEffect(() => {
     document.title = "Why Credit Checks are Vital for US Residents | The Definitive Financial Guide 2026";
@@ -1227,7 +1328,7 @@ const SurveysPage = () => {
   ];
 
   useEffect(() => {
-    document.title = "Available Surveys | Offer Eligibility Check Portal";
+    document.title = "Intelligence Hub | Audit Activation Center - OEC";
     window.scrollTo(0, 0);
   }, []);
 
@@ -1457,8 +1558,8 @@ const FinancialAuditScanner = () => {
   );
 };
 
-const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestricted }: LandingPageProps) => {
-  const [checkStatus, setCheckStatus] = useState<'checking' | 'allowed' | 'geo_denied' | 'device_denied'>('checking');
+const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestricted, isHome }: LandingPageProps) => {
+  const [checkStatus, setCheckStatus] = useState<'checking' | 'allowed' | 'geo_denied' | 'device_denied'>(isHome ? 'allowed' : 'checking');
   const [activeHandshakes, setActiveHandshakes] = useState(148);
   const [tickerMessage, setTickerMessage] = useState("ESTABLISHING SECURE HANDSHAKE WITH US-EAST-1 NODES...");
 
@@ -1473,7 +1574,10 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
       "ID VERIFICATION NODE: SWITZERLAND-CH-1 ACTIVE",
       "DATA PURGE COMPLETED: SESSION TOKEN ENCRYPTED",
       "REGULATORY AUDIT: 142 BUREAU CONNECTIONS VERIFIED",
-      "CONSUMER PROTECTION LAYER 4: ONLINE"
+      "CONSUMER PROTECTION LAYER 4: ONLINE",
+      "X-SENSITIVE-DATA: REDACTED BY DEFAULT",
+      "CROSS-REFERENCING TENANT BLACKLIST DATABASE...",
+      "IDENTITY INTEGRITY SCORE: OPTIMAL"
     ];
 
     let msgIndex = 0;
@@ -1766,26 +1870,59 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
             </div>
 
             {/* Bottom Left - Bento 3 */}
-            <div className="md:col-span-4 bg-white border border-gray-100 rounded-[3rem] p-12 flex flex-col items-center text-center justify-center space-y-4 hover:shadow-2xl transition-all group">
+            <Link to="/resources" className="md:col-span-4 bg-white border border-gray-100 rounded-[3rem] p-12 flex flex-col items-center text-center justify-center space-y-4 hover:shadow-2xl transition-all group no-underline">
                <div className="text-6xl font-black text-blue-600 font-display group-hover:scale-110 transition-transform tracking-tighter">1.4M+</div>
                <p className="text-xs font-black uppercase tracking-[0.3em] text-[#5F6368] font-display">Identity Audits completed</p>
-            </div>
+               <div className="pt-4 flex items-center gap-2 text-[10px] font-black text-blue-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                 See Resource Hub <ArrowRight className="w-3 h-3" />
+               </div>
+            </Link>
 
             {/* Bottom Right - Bento 4 */}
             <div className="md:col-span-8 bg-blue-50 rounded-[3rem] p-12 border border-blue-100 flex flex-col md:flex-row items-center gap-12 group hover:shadow-xl transition-all">
               <div className="w-32 h-32 bg-white rounded-[2.5rem] flex items-center justify-center shrink-0 shadow-lg group-hover:rotate-6 transition-all">
-                 <ShieldCheck className="w-16 h-16 text-blue-600" />
+                 <Scale className="w-16 h-16 text-blue-600" />
               </div>
               <div className="space-y-4">
-                <h4 className="text-3xl font-black tracking-tight font-display uppercase">Tenant Rights Protection</h4>
+                <h4 className="text-3xl font-black tracking-tight font-display uppercase">FCRA Regulatory Compliance</h4>
                 <p className="text-lg text-[#5F6368] font-medium leading-relaxed">
-                  Specialized protocols for the American rental market. We verify what landlords see before they see it.
+                  We enforce your rights under the Fair Credit Reporting Act. Every audit link is vetted for regulatory adherence and data integrity.
                 </p>
                 <div className="flex gap-2">
                    {[1,2,3].map(i => <div key={i} className="h-1 w-8 bg-blue-600/20 rounded-full" />)}
                 </div>
               </div>
             </div>
+
+            {/* Additional Bento 5 - Earning Blueprint */}
+            <Link to="/earn-10-online" className="md:col-span-6 bg-white border border-gray-100 rounded-[3rem] p-12 flex flex-col justify-between hover:bg-gray-50 transition-all group no-underline">
+               <div className="flex justify-between items-start">
+                 <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                    <TrendingUp className="w-8 h-8" />
+                 </div>
+                 <ArrowUpRight className="w-8 h-8 text-gray-300 group-hover:text-blue-600 transition-colors" />
+               </div>
+               <div className="space-y-4">
+                 <h4 className="text-3xl font-black font-display uppercase tracking-tighter">The Earning Blueprint</h4>
+                 <p className="text-[#5F6368] font-medium leading-relaxed">
+                   Transition from consumer to consultant. Learn how to scale your market research activity into a sustainable monthly protocol.
+                 </p>
+               </div>
+            </Link>
+
+            {/* Additional Bento 6 - Mission Vision */}
+            <Link to="/about" className="md:col-span-6 bg-[#1a1a1a] rounded-[3rem] p-12 text-white flex flex-col justify-between hover:bg-blue-600 transition-all duration-700 group no-underline">
+               <div className="space-y-8">
+                 <Globe className="w-12 h-12 text-blue-400 group-hover:text-white transition-colors" />
+                 <h4 className="text-3xl font-black font-display uppercase tracking-tighter">Global Vision 2026</h4>
+                 <p className="text-white/60 group-hover:text-white transition-colors text-lg font-serif italic">
+                   "Our mission is to democratize financial intelligence for everyone, everywhere."
+                 </p>
+               </div>
+               <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em]">
+                 The OEC Story <ArrowRight className="w-4 h-4" />
+               </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -1859,11 +1996,13 @@ export default function App() {
           element={
             <LandingPage 
               offerUrl="https://singingfiles.com/show.php?l=0&u=2520769&id=73209"
-              title="Reward Eligibility Check | Verified Access Portal"
-              description="Check your eligibility for exclusive rewards and promotional offers. 100% free, automated eligibility check for verified users."
+              title="Verified Financial Advocacy & Eligibility | Offer Eligibility Check"
+              description="See what institucional lenders see. Check your eligibility for exclusive housing and reward programs with our zero-trust audit protocol."
+              isHome={true}
             />
           } 
         />
+        <Route path="/resources" element={<ResourceHubPage />} />
         <Route 
           path="/verify-status" 
           element={
