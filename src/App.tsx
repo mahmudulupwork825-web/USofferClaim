@@ -225,6 +225,7 @@ const Navbar = () => {
     { name: "Gift Cards", path: "/gift-cards" },
     { name: "Cash Rewards", path: "/cash-rewards" },
     { name: "Coupons", path: "/coupons" },
+    { name: "Sign Up", path: "/signup" },
   ];
 
   return (
@@ -319,11 +320,13 @@ const Footer = () => (
             <li><Link to="/coupons" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">Digital Coupons</Link></li>
             <li><Link to="/earn-10-online" className="text-[#4285F4] hover:text-[#3367D6] text-sm transition-colors font-bold underline decoration-[#4285F4]/30 underline-offset-4">Success Stories</Link></li>
             <li><Link to="/blog/credit-check-importance" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors font-medium underline decoration-gray-200 underline-offset-4">US Credit Guide</Link></li>
+            <li><Link to="/signup" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors font-medium">Join Community</Link></li>
           </ul>
         </div>
         <div>
           <h4 className="text-[#202124] font-bold mb-6 uppercase tracking-widest text-xs">Company</h4>
           <ul className="space-y-4">
+            <li><Link to="/signup" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">Sign Up</Link></li>
             <li><Link to="/about" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">About Us</Link></li>
             <li><Link to="/privacy" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">Privacy Policy</Link></li>
             <li><a href="mailto:support@offereligibilitycheck.com" className="text-[#5F6368] hover:text-[#4285F4] text-sm transition-colors">Contact Support</a></li>
@@ -812,6 +815,160 @@ const BlogPostPage = () => {
                 <span>Words: 1500+</span>
              </div>
           </div>
+        </motion.div>
+      </div>
+      <KeywordCloud />
+    </div>
+  );
+};
+
+const SignUpPage = () => {
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", country: "US", device: "Desktop" });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    document.title = "Register Your Profile | OfferCheck Global Community";
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    // User request: admin@offereligibilitycheck.com will receive these details
+    console.log("Registration details sent to admin@offereligibilitycheck.com:", formData);
+  };
+
+  return (
+    <div className="min-h-screen bg-white pt-32 pb-24">
+      <div className="max-w-xl mx-auto px-6">
+        <motion.div
+           initial={{ opacity: 0, scale: 0.95 }}
+           animate={{ opacity: 1, scale: 1 }}
+           className="bg-white border border-gray-100 rounded-[3rem] p-12 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.1)]"
+        >
+          {!isSubmitted ? (
+            <div className="space-y-8">
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 rounded-2xl bg-[#4285F4]/10 flex items-center justify-center mx-auto">
+                  <Lock className="w-8 h-8 text-[#4285F4]" />
+                </div>
+                <h1 className="text-4xl font-black text-[#202124] tracking-tight">Create Your Account</h1>
+                <p className="text-[#5F6368] font-medium">Join 500,000+ users earning via professional research.</p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-xs font-black uppercase tracking-widest text-[#202124] mb-2">Full Name</label>
+                  <input 
+                    type="text" 
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    placeholder="John Doe"
+                    className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20 focus:border-[#4285F4] transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-black uppercase tracking-widest text-[#202124] mb-2">Work Email</label>
+                  <input 
+                    type="email" 
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    placeholder="john@example.com"
+                    className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20 focus:border-[#4285F4] transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-black uppercase tracking-widest text-[#202124] mb-2">Phone Number</label>
+                  <input 
+                    type="tel" 
+                    required
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    placeholder="+1 (555) 000-0000"
+                    className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20 focus:border-[#4285F4] transition-all"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-widest text-[#202124] mb-2">Country</label>
+                    <select 
+                      value={formData.country}
+                      onChange={(e) => setFormData({...formData, country: e.target.value})}
+                      className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none"
+                    >
+                      <option value="US">USA</option>
+                      <option value="CH">Switzerland</option>
+                      <option value="PT">Portugal</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-widest text-[#202124] mb-2">Primary Device</label>
+                    <select 
+                      value={formData.device}
+                      onChange={(e) => setFormData({...formData, device: e.target.value})}
+                      className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none"
+                    >
+                      <option value="Desktop">Desktop</option>
+                      <option value="Apple">iPhone/iPad</option>
+                      <option value="Android">Android</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="pt-4">
+                  <button type="submit" className="w-full py-5 bg-[#4285F4] text-white rounded-2xl font-black text-xl hover:bg-[#3367D6] shadow-lg shadow-[#4285F4]/20 active:scale-95 transition-all">
+                    START EARNING NOW
+                  </button>
+                </div>
+
+                <p className="text-[10px] text-center text-[#5F6368] leading-relaxed">
+                  By signing up, you agree to our Terms of Service and Privacy Policy. Your registration data will be securely processed at admin@offereligibilitycheck.com.
+                </p>
+              </form>
+            </div>
+          ) : (
+            <div className="text-center py-12 space-y-8">
+              <div className="w-20 h-20 rounded-full bg-[#34A853]/10 flex items-center justify-center mx-auto">
+                <CheckCircle2 className="w-10 h-10 text-[#34A853]" />
+              </div>
+              <div className="space-y-4">
+                <h2 className="text-3xl font-black text-[#202124]">Profile Registered</h2>
+                <p className="text-[#5F6368] leading-relaxed font-medium">
+                  Thank you, <span className="font-bold text-[#202124]">{formData.name}</span>. Your high-intent eligibility profile is now in our verification queue.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 text-left">
+                <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100 flex gap-4">
+                  <div className="w-8 h-8 rounded-full bg-[#4285F4]/10 flex items-center justify-center shrink-0">
+                    <Mail className="w-4 h-4 text-[#4285F4]" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-[#202124]">Step 1: Admin Review</h4>
+                    <p className="text-xs text-[#5F6368]">Our team at admin@offereligibilitycheck.com is auditing your {formData.device} connection metrics.</p>
+                  </div>
+                </div>
+                <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100 flex gap-4">
+                  <div className="w-8 h-8 rounded-full bg-[#34A853]/10 flex items-center justify-center shrink-0">
+                    <Zap className="w-4 h-4 text-[#34A853]" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-[#202124]">Step 2: Start Earning</h4>
+                    <p className="text-xs text-[#5F6368]">Once verified, high-payout offers ($10-$50) will be prioritised for your IP address in the dashboard.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <Link to="/surveys" className="w-full inline-block py-4 bg-[#202124] text-white rounded-xl font-bold hover:bg-black transition-all">
+                  VIEW CURRENT OFFERS
+                </Link>
+                <p className="mt-4 text-[10px] text-[#5F6368] uppercase tracking-widest font-bold">Check your inbox for the RX-992 Verification Key</p>
+              </div>
+            </div>
+          )}
         </motion.div>
       </div>
       <KeywordCloud />
@@ -1891,6 +2048,7 @@ export default function App() {
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/earn-10-online" element={<BlogPostPage />} />
         <Route path="/blog/credit-check-importance" element={<CreditCheckGuidePage />} />
+        <Route path="/signup" element={<SignUpPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>
