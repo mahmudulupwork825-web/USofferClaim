@@ -169,74 +169,86 @@ const Navbar = () => {
     { name: "Credit Score", path: "/surveys" },
     { name: "Monitoring", path: "/gift-cards" },
     { name: "Tenant Tips", path: "/cash-rewards" },
-    { name: "Tools", path: "/coupons" },
+    { name: "Success Stories", path: "/earn-10-online" },
     { name: "Sign Up", path: "/signup" },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-[#4285F4] flex items-center justify-center shadow-md">
-              <TrendingUp className="w-5 h-5 text-white stroke-[2.5]" />
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-2xl border-b border-gray-100/50 transition-all duration-500">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between h-20">
+          <Link to="/" className="flex items-center gap-4 group">
+            <motion.div 
+              whileHover={{ rotate: 10, scale: 1.1 }}
+              className="w-12 h-12 rounded-2xl bg-[#1a1a1a] flex items-center justify-center shadow-2xl transition-all"
+            >
+              <TrendingUp className="w-7 h-7 text-white stroke-[2.5]" />
+            </motion.div>
+            <div className="flex flex-col">
+              <span className="font-display font-black text-2xl text-[#1a1a1a] tracking-tight leading-none">OEC</span>
+              <span className="text-[9px] font-black text-[#5F6368] uppercase tracking-[0.3em] leading-tight font-display">Intelligence</span>
             </div>
-            <span className="font-bold text-[#202124] tracking-tight text-lg">Offer Eligibility Check</span>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-12">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-[#4285F4] ${
-                  location.pathname === link.path ? "text-[#4285F4]" : "text-[#5F6368]"
+                className={`group relative text-[10px] font-black uppercase tracking-[0.2em] font-display transition-all ${
+                  location.pathname === link.path ? "text-[#4285F4]" : "text-[#5F6368] hover:text-[#1a1a1a]"
                 }`}
               >
                 {link.name}
               </Link>
             ))}
-            <Link to="/verify-status" className="px-5 py-2 bg-[#4285F4] text-white text-sm font-bold rounded-full hover:bg-[#3367D6] transition-all shadow-sm active:scale-95">
-              Verify Now
+            <div className="h-4 w-[1px] bg-gray-200" />
+            <Link to="/verify-status" className="px-8 py-3 bg-[#1a1a1a] text-white text-[11px] font-black rounded-xl hover:bg-black hover:shadow-2xl hover:-translate-y-0.5 transition-all active:scale-95 font-display uppercase tracking-widest">
+              LAUNCH AUDIT
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-[#5F6368] hover:text-[#202124]">
+          <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden w-10 h-10 flex items-center justify-center text-[#5F6368] hover:text-[#202124] transition-colors">
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Nav */}
-      <motion.div
-        initial={false}
-        animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
-        className="md:hidden overflow-hidden bg-white border-b border-gray-100"
-      >
-        <div className="px-4 py-6 flex flex-col gap-4">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              onClick={() => setIsOpen(false)}
-              className={`text-base font-medium ${
-                location.pathname === link.path ? "text-[#4285F4]" : "text-[#5F6368]"
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
-          <Link
-            to="/verify-status"
-            onClick={() => setIsOpen(false)}
-            className="w-full py-3 bg-[#4285F4] text-white text-center font-bold rounded-xl"
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="lg:hidden overflow-hidden bg-white border-b border-gray-100 shadow-2xl"
           >
-            Verify Now
-          </Link>
-        </div>
-      </motion.div>
+            <div className="px-6 py-8 flex flex-col gap-5">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setIsOpen(false)}
+                  className={`text-xl font-black ${
+                    location.pathname === link.path ? "text-[#4285F4]" : "text-[#202124]"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+              <Link
+                to="/verify-status"
+                onClick={() => setIsOpen(false)}
+                className="w-full py-4 bg-[#4285F4] text-white text-center font-black rounded-2xl text-lg shadow-lg"
+              >
+                Launch Verification
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
@@ -774,64 +786,71 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-32 pb-24">
-      <div className="max-w-xl mx-auto px-6">
+    <div className="min-h-screen bg-[#fafafa] pt-48 pb-32">
+      <div className="max-w-2xl mx-auto px-8">
         <motion.div
-           initial={{ opacity: 0, scale: 0.95 }}
-           animate={{ opacity: 1, scale: 1 }}
-           className="bg-white border border-gray-100 rounded-[3rem] p-12 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.1)]"
+           initial={{ opacity: 0, y: 30 }}
+           animate={{ opacity: 1, y: 0 }}
+           className="bg-white border border-gray-100 rounded-[4rem] p-16 shadow-[0_64px_128px_-24px_rgba(0,0,0,0.08)] relative overflow-hidden"
         >
+          {/* Subtle accent */}
+          <div className="absolute top-0 left-0 w-full h-2 bg-blue-600" />
+          
           {!isSubmitted ? (
-            <div className="space-y-8">
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 rounded-2xl bg-[#4285F4]/10 flex items-center justify-center mx-auto">
-                  <Lock className="w-8 h-8 text-[#4285F4]" />
+            <div className="space-y-12">
+              <div className="text-center space-y-6">
+                 <div className="w-20 h-20 rounded-[2.5rem] bg-gray-50 flex items-center justify-center mx-auto border border-gray-100">
+                  <ShieldCheck className="w-10 h-10 text-blue-600" />
                 </div>
-                <h1 className="text-4xl font-black text-[#202124] tracking-tight">Create Your Account</h1>
-                <p className="text-[#5F6368] font-medium">Join 500,000+ users earning via professional research.</p>
+                <h1 className="text-5xl font-black text-[#1a1a1a] tracking-tighter uppercase font-display leading-[0.9]">Establish <br />Your Portfolio.</h1>
+                <p className="text-xl text-[#5F6368] font-serif italic">"Precision monitoring requires a verified identity profile."</p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-xs font-black uppercase tracking-widest text-[#202124] mb-2">Full Name</label>
-                  <input 
-                    type="text" 
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    placeholder="John Doe"
-                    className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20 focus:border-[#4285F4] transition-all"
-                  />
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-3">
+                    <label className="block text-[10px] font-black uppercase tracking-[0.25em] text-[#5F6368] font-display ml-6">Legal Name</label>
+                    <input 
+                      type="text" 
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      placeholder="ALEXANDER VANCE"
+                      className="w-full px-8 py-5 bg-gray-50 border border-gray-100 rounded-3xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600 transition-all font-display uppercase tracking-wider text-sm"
+                    />
+                  </div>
+                  <div className="space-y-3">
+                    <label className="block text-[10px] font-black uppercase tracking-[0.25em] text-[#5F6368] font-display ml-6">Secure Terminal Email</label>
+                    <input 
+                      type="email" 
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      placeholder="VANCE@OEC.FINANCE"
+                      className="w-full px-8 py-5 bg-gray-50 border border-gray-100 rounded-3xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600 transition-all font-display uppercase tracking-wider text-sm"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-xs font-black uppercase tracking-widest text-[#202124] mb-2">Work Email</label>
-                  <input 
-                    type="email" 
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    placeholder="john@example.com"
-                    className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20 focus:border-[#4285F4] transition-all"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-black uppercase tracking-widest text-[#202124] mb-2">Phone Number</label>
+
+                <div className="space-y-3">
+                  <label className="block text-[10px] font-black uppercase tracking-[0.25em] text-[#5F6368] font-display ml-6">Encrypted Phone Channel</label>
                   <input 
                     type="tel" 
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
                     placeholder="+1 (555) 000-0000"
-                    className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20 focus:border-[#4285F4] transition-all"
+                    className="w-full px-8 py-5 bg-gray-50 border border-gray-100 rounded-3xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-600 transition-all font-display uppercase tracking-wider text-sm"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-black uppercase tracking-widest text-[#202124] mb-2">Country</label>
+
+                <div className="grid grid-cols-2 gap-8">
+                   <div className="space-y-3">
+                    <label className="block text-[10px] font-black uppercase tracking-[0.25em] text-[#5F6368] font-display ml-6">Jurisdiction</label>
                     <select 
                       value={formData.country}
                       onChange={(e) => setFormData({...formData, country: e.target.value})}
-                      className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none"
+                      className="w-full px-8 py-5 bg-gray-50 border border-gray-100 rounded-3xl focus:outline-none appearance-none font-display uppercase tracking-wider text-sm"
                     >
                       <option value="US">USA</option>
                       <option value="CH">Switzerland</option>
@@ -1214,56 +1233,75 @@ const SurveysPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white pt-32 pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 bg-[#4285F4]/5 border border-[#4285F4]/20 px-4 py-1.5 rounded-full mb-6"
-          >
-            <Globe className="w-4 h-4 text-[#4285F4]" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#4285F4]">Multi-Region Access Portal</span>
-          </motion.div>
-          <h1 className="text-4xl md:text-6xl font-black text-[#202124] tracking-tighter mb-6 uppercase">
-            Choose Your <span className="text-[#4285F4]">Earning Portal</span>
-          </h1>
-          <p className="text-[#5F6368] max-w-2xl mx-auto text-lg leading-relaxed font-medium">
-            We've curated the most exclusive, high-payout market research opportunities from around the globe. Select the offer that matches your current device and residency status to begin the 30-second verification process.
+    <div className="min-h-screen bg-[#fafafa] pt-48 pb-32">
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-12">
+          <div className="space-y-6">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="inline-flex items-center gap-3 bg-white border border-gray-100 px-4 py-2 rounded-2xl shadow-sm"
+            >
+              <Globe className="w-4 h-4 text-blue-600" />
+              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#5F6368] font-display">Global Intelligence Node Enabled</span>
+            </motion.div>
+            <h1 className="text-[clamp(3rem,6vw,5rem)] font-black text-[#1a1a1a] tracking-tight uppercase font-display leading-[0.85]">
+              Universal <br />
+              <span className="text-blue-600">Access</span> Panel.
+            </h1>
+          </div>
+          <p className="text-xl text-[#5F6368] font-serif italic max-w-xl leading-relaxed border-l-4 border-blue-600 pl-8">
+            "Proprietary selection of tier-one market research opportunities. Access is strictly governed by local jurisdiction and hardware compliance."
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-32">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-40">
           {surveys.map((survey, index) => (
             <motion.div
               key={survey.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="group relative"
+              transition={{ delay: index * 0.05 }}
+              className="group relative bg-white border border-gray-100 rounded-[3rem] p-10 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.1)] transition-all flex flex-col justify-between min-h-[400px] overflow-hidden"
             >
-              <Link to={survey.path} className="block h-full">
-                <div className="h-full bg-gray-50 border border-gray-100 rounded-3xl p-8 transition-all hover:bg-white hover:shadow-xl hover:border-[#4285F4]/30 flex flex-col">
-                  <div className="w-12 h-12 rounded-xl bg-[#4285F4]/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    {survey.device === 'Apple' ? <Shield className="w-6 h-6 text-[#4285F4]" /> : 
-                     survey.device === 'Android' ? <Zap className="w-6 h-6 text-[#34A853]" /> : 
-                     <Globe className="w-6 h-6 text-[#FBBC05]" />}
+              {/* Subtle background ID */}
+              <div className="absolute top-0 right-0 p-8 text-[80px] font-black opacity-[0.03] select-none group-hover:opacity-[0.07] transition-all font-display uppercase tracking-tighter">
+                {survey.region}
+              </div>
+
+              <div className="space-y-8 relative z-10">
+                <div className={`w-16 h-16 rounded-2xl ${survey.color} bg-opacity-10 flex items-center justify-center transition-transform group-hover:scale-110 duration-500`}>
+                   {survey.device === "Apple" ? <Smartphone className={`w-8 h-8 ${survey.color.replace('bg-', 'text-')}`} /> : 
+                    survey.device === "Android" ? <Activity className={`w-8 h-8 ${survey.color.replace('bg-', 'text-')}`} /> : 
+                    <Database className={`w-8 h-8 ${survey.color.replace('bg-', 'text-')}`} />}
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[#5F6368] font-display">{survey.region}</span>
+                    <div className="w-1 h-1 rounded-full bg-gray-300" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[#5F6368] font-display">{survey.device}</span>
                   </div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{survey.region}</span>
-                    <span className="w-1 h-1 rounded-full bg-[#5F6368]/20" />
-                    <span className="text-[10px] font-bold text-[#5F6368] uppercase tracking-widest">{survey.device}</span>
-                  </div>
-                  <h3 className="text-[#202124] font-bold text-xl mb-4 group-hover:text-[#4285F4] transition-colors">{survey.title}</h3>
-                  <p className="text-[#5F6368] text-sm leading-relaxed mb-8 flex-grow">
+                  <h3 className="text-3xl font-black text-[#1a1a1a] tracking-tight uppercase font-display leading-tight group-hover:text-blue-600 transition-colors">
+                    {survey.title}
+                  </h3>
+                  <p className="text-[#5F6368] font-medium leading-relaxed">
                     {survey.description}
                   </p>
-                  <div className="flex items-center gap-2 text-[#4285F4] font-black text-sm uppercase tracking-tighter">
-                    Check Eligibility
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
                 </div>
-              </Link>
+              </div>
+
+              <div className="pt-10 relative z-10">
+                <Link 
+                  to={survey.path}
+                   className="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-[#1a1a1a] hover:gap-5 transition-all group/btn font-display"
+                >
+                  ESTABLISH CONNECTION <ArrowRight className="w-4 h-4" />
+                </Link>
+                <div className="mt-4 h-1 w-full bg-gray-50 rounded-full overflow-hidden">
+                   <div className={`h-full ${survey.color} w-3 group-hover:w-full transition-all duration-1000`} />
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -1310,25 +1348,20 @@ const SurveysPage = () => {
             </div>
           </div>
 
-          <div className="py-20 border-t border-gray-100 space-y-8">
-            <h2 className="text-4xl font-black text-[#202124] text-center mb-12">The Financial Advocacy Blueprint</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-               <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100">
-                 <h4 className="text-blue-600 font-black mb-3 text-lg tracking-widest">01. AUDIT</h4>
-                 <p className="text-xs leading-relaxed text-[#5F6368] font-medium">Run a comprehensive search across major bureaus to identify any discrepancies or unauthorized inquiries.</p>
-               </div>
-               <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100">
-                 <h4 className="text-blue-600 font-black mb-3 text-lg tracking-widest">02. IDENTIFY</h4>
-                 <p className="text-xs leading-relaxed text-[#5F6368] font-medium">Pinpoint the "High-Impact" factors affecting your score, from credit utilization to account age.</p>
-               </div>
-               <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100">
-                 <h4 className="text-blue-600 font-black mb-3 text-lg tracking-widest">03. ADVOCATE</h4>
-                 <p className="text-xs leading-relaxed text-[#5F6368] font-medium">Use our FCRA-compliant link guides to dispute errors directly with the credit reporting agencies.</p>
-               </div>
-               <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100">
-                 <h4 className="text-blue-600 font-black mb-3 text-lg tracking-widest">04. MONITOR</h4>
-                 <p className="text-xs leading-relaxed text-[#5F6368] font-medium">Set up automated alerts to stay informed of every change to your financial reputation in real-time.</p>
-               </div>
+          <div className="py-32 border-t border-gray-100 space-y-16">
+            <h2 className="text-5xl font-black text-[#1a1a1a] text-center uppercase font-display tracking-tighter">The Financial Advocacy Blueprint</h2>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+               {[
+                 { step: "01", title: "AUDIT", desc: "Run a comprehensive search across major bureaus to identify any discrepancies or unauthorized inquiries." },
+                 { step: "02", title: "IDENTIFY", desc: "Pinpoint the \"High-Impact\" factors affecting your score, from credit utilization to account age." },
+                 { step: "03", title: "ADVOCATE", desc: "Use our FCRA-compliant link guides to dispute errors directly with the credit reporting agencies." },
+                 { step: "04", title: "RESOLVE", desc: "Monitor the resolution process in real-time as bureaus verify and update your credentials." }
+               ].map((item, i) => (
+                 <div key={i} className="p-10 bg-white rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all group">
+                   <h4 className="text-blue-600 font-display font-black mb-6 text-2xl tracking-tighter group-hover:scale-110 transition-transform origin-left">{item.step}. {item.title}</h4>
+                   <p className="text-sm leading-relaxed text-[#5F6368] font-medium font-serif italic">"{item.desc}"</p>
+                 </div>
+               ))}
             </div>
           </div>
 
@@ -1344,32 +1377,90 @@ const SurveysPage = () => {
   );
 };
 
-const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestricted }: LandingPageProps) => {
-  const [showContent, setShowContent] = useState(false);
-  const [verificationStatus, setVerificationStatus] = useState<'checking' | 'allowed' | 'bot_denied'>('checking');
-  const [auditScore, setAuditScore] = useState(0);
+const FinancialAuditScanner = () => {
+  const [step, setStep] = useState(0);
+  const [percent, setPercent] = useState(0);
 
+  const steps = [
+    { label: "IP INTEGRITY", icon: Globe, status: "Secure" },
+    { label: "DEVICE SYNC", icon: Smartphone, status: "Verified" },
+    { label: "ENCRYPTION", icon: ShieldCheck, status: "AES-256" },
+    { label: "QUERY MASK", icon: Database, status: "Active" }
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setPercent(prev => {
+        if (prev >= 100) {
+          setStep(s => (s + 1) % steps.length);
+          return 0;
+        }
+        return prev + 2;
+      });
+    }, 50);
+    return () => clearInterval(timer);
+  }, [steps.length]);
+
+  return (
+    <div className="bg-[#121212] rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden border border-white/5">
+      <div className="absolute top-0 right-0 p-8">
+        <Activity className="w-8 h-8 text-[#4285F4] opacity-50 animate-pulse" />
+      </div>
+      
+      <div className="relative z-10 space-y-10">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 mb-2 font-display">System Audit Active</p>
+            <h3 className="text-3xl font-black tracking-tight font-display italic">Financial Radar</h3>
+          </div>
+          <div className="text-right">
+            <p className="text-3xl font-mono font-black text-blue-400">{percent}%</p>
+            <p className="text-[10px] font-bold text-white/40 uppercase font-display">Processing</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          {steps.map((s, i) => (
+            <div 
+              key={s.label}
+              className={`p-5 rounded-2xl border transition-all duration-500 ${
+                i === step ? "bg-blue-600 border-blue-400 shadow-lg shadow-blue-600/20" : "bg-white/5 border-white/10"
+              }`}
+            >
+              <s.icon className={`w-5 h-5 mb-3 ${i === step ? "text-white" : "text-blue-400"}`} />
+              <p className={`text-[10px] font-black tracking-widest mb-1 font-display ${i === step ? "text-white/80" : "text-white/40"}`}>{s.label}</p>
+              <p className="text-sm font-bold font-display uppercase tracking-tight">{s.status}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="pt-6 border-t border-white/10 flex items-center justify-between gap-4">
+          <div className="flex -space-x-2">
+            {[1,2,3,4].map(i => (
+              <div key={i} className="w-8 h-8 rounded-full border-2 border-[#121212] bg-gray-800 flex items-center justify-center text-[10px] font-bold">
+                {String.fromCharCode(64 + i)}
+              </div>
+            ))}
+          </div>
+          <p className="text-[10px] font-medium text-white/40 italic font-serif">Serving 500k+ Active Members</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestricted }: LandingPageProps) => {
+  const [checkStatus, setCheckStatus] = useState<'checking' | 'allowed' | 'geo_denied' | 'device_denied'>('checking');
+  
   useEffect(() => {
     document.title = title;
     const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute("content", description);
+    if (metaDesc) metaDesc.setAttribute('content', description);
     
     window.scrollTo(0, 0);
 
     setTimeout(() => {
-      setVerificationStatus('allowed');
-      setShowContent(true);
-      
-      let score = 0;
-      const interval = setInterval(() => {
-        score += 7;
-        if (score >= 820) {
-          setAuditScore(820);
-          clearInterval(interval);
-        } else {
-          setAuditScore(score);
-        }
-      }, 20);
+      setCheckStatus('allowed');
     }, 1500);
   }, [title, description]);
 
@@ -1383,29 +1474,51 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
     window.location.href = offerUrl;
   };
 
-  if (verificationStatus === 'checking') {
+  if (checkStatus === 'checking') {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-[#4285F4]/20 border-t-[#4285F4] rounded-full animate-spin" />
-          <p className="text-[#5F6368] font-medium text-sm animate-pulse">Running Device & Region Verification...</p>
-        </div>
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px]">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="flex flex-col items-center gap-8 max-w-sm w-full text-center"
+        >
+          <div className="relative">
+            <div className="w-24 h-24 border-t-4 border-blue-600 border-solid rounded-full animate-spin" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <ShieldCheck className="w-10 h-10 text-blue-600" />
+            </div>
+          </div>
+          <div className="space-y-3">
+            <h3 className="text-2xl font-black text-[#1a1a1a] tracking-tight font-display">Authenticating Identity</h3>
+            <p className="text-[#5F6368] font-bold text-xs leading-relaxed uppercase tracking-[0.2em] font-display">
+              Connecting to Consumer Network Secure Node...
+            </p>
+          </div>
+          <div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: "100%" }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
+              className="bg-blue-600 h-full"
+            />
+          </div>
+        </motion.div>
       </div>
     );
   }
 
-  if (verificationStatus === 'geo_denied') {
+  if (checkStatus === 'geo_denied') {
     return (
       <div className="min-h-screen bg-white text-[#202124] flex flex-col items-center justify-center p-6 text-center">
         <Globe className="w-16 h-16 text-[#FBBC05] mb-6 opacity-80" />
-        <h1 className="text-3xl font-black mb-4">REGION RESTRICTED</h1>
-        <p className="text-[#5F6368] max-w-md leading-relaxed font-medium">This high-value offer is currently optimized for residents of Switzerland. Your geographic scan indicates access from a different region.</p>
-        <Link to="/" className="mt-8 text-[#4285F4] border border-[#4285F4]/30 px-8 py-3 rounded-full font-bold hover:bg-[#4285F4]/5 transition-all">Return to Global Offers</Link>
+        <h1 className="text-3xl font-black font-display uppercase tracking-tighter mb-4">REGION RESTRICTED</h1>
+        <p className="text-[#5F6368] max-w-md leading-relaxed font-serif italic text-lg">"Access from your current geographic node is restricted for this specific audit profile. Please consult the global directory."</p>
+        <Link to="/" className="mt-8 text-[#4285F4] border-b-2 border-[#4285F4] pb-1 font-black uppercase tracking-widest text-sm hover:opacity-70 transition-all">Return to Global Directory</Link>
       </div>
     );
   }
 
-  if (verificationStatus === 'device_denied') {
+  if (checkStatus === 'device_denied') {
     return (
       <div className="min-h-screen bg-white text-[#202124] flex flex-col items-center justify-center p-6 text-center">
         <Lock className="w-16 h-16 text-[#4285F4] mb-6 opacity-80" />
@@ -1426,237 +1539,163 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-[#3C4043] pt-16">
+    <div className="min-h-screen bg-[#fafafa] text-[#1a1a1a] selection:bg-blue-600 selection:text-white pb-20">
       {/* Hero Section */}
-      <section className="relative bg-white border-b border-slate-200 overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-50/50 to-transparent pointer-events-none" />
+      <section className="relative pt-48 pb-32 overflow-hidden border-b border-gray-100">
+         {/* Background elements */}
+        <div className="absolute top-0 right-0 w-2/3 h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50/50 via-transparent to-transparent -z-10" />
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <motion.div
+        <div className="max-w-7xl mx-auto px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            <div className="space-y-12">
+              <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-bold mb-6 border border-green-100"
+                className="inline-flex items-center gap-3 px-4 py-2 bg-white border border-gray-100 rounded-2xl shadow-sm"
               >
-                <ShieldCheck className="w-3.5 h-3.5" />
-                SECURE CONSUMER ACCESS PORTAL
+                <div className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#5F6368] font-display">Universal Eligibility Portal Active</span>
               </motion.div>
-              
+
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-5xl lg:text-7xl font-black text-slate-900 leading-[0.9] tracking-tight mb-8"
+                className="text-[clamp(3.5rem,9vw,6.5rem)] font-black leading-[0.82] tracking-tighter text-[#1a1a1a] font-display"
               >
-                Your <span className="text-blue-600">Financial Identity,</span> Protected.
+                Control Your <br />
+                <span className="text-[#4285F4]">Financial</span> <br />
+                Identity.
               </motion.h1>
-              
+
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-lg text-slate-600 mb-10 max-w-lg leading-relaxed"
+                className="text-2xl text-[#5F6368] font-serif italic leading-relaxed max-w-xl"
               >
-                America's trusted hub for credit empowerment. Access real-time monitoring, 
-                professional tenant screening guides, and identity protection tools.
+                "Offer Eligibility Check delivers surgical precision in consumer advocacy. Access real-time monitoring and identity protection tools designed for the modern regulatory landscape."
               </motion.p>
 
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="flex flex-col sm:flex-row gap-4"
+                className="flex flex-col sm:flex-row gap-6"
               >
                 <button 
                   onClick={handleCTA}
-                  className="px-10 py-5 bg-blue-600 text-white rounded-xl font-black text-lg shadow-xl shadow-blue-200 hover:bg-blue-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
+                  className="px-12 py-6 bg-[#1a1a1a] text-white rounded-2xl font-black text-xl hover:bg-black hover:shadow-2xl hover:-translate-y-1 transition-all flex items-center justify-center gap-3 group font-display uppercase tracking-tight"
                 >
-                  AUDIT MY STATUS
-                  <ArrowRight className="w-5 h-5" />
+                  AUDIT MY PROFILE <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <button className="px-10 py-5 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold text-lg hover:bg-slate-50 transition-all">
+                <button className="px-12 py-6 bg-white border border-gray-200 text-[#1a1a1a] rounded-2xl font-black text-xl hover:bg-gray-50 transition-all font-display uppercase tracking-tight">
                   OUR MISSION
                 </button>
               </motion.div>
+
+              <div className="pt-12 flex flex-wrap gap-12 items-center opacity-30 grayscale hover:grayscale-0 transition-all">
+                <div className="flex items-center gap-3"><Lock className="w-5 h-5" /><span className="text-[10px] font-black uppercase tracking-widest font-display">SSL Secure</span></div>
+                <div className="flex items-center gap-3"><ShieldCheck className="w-5 h-5" /><span className="text-[10px] font-black uppercase tracking-widest font-display">FCRA Compliant</span></div>
+                <div className="flex items-center gap-3"><Database className="w-5 h-5" /><span className="text-[10px] font-black uppercase tracking-widest font-display">Zero Retention</span></div>
+              </div>
             </div>
 
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="relative"
+              transition={{ delay: 0.2, duration: 1 }}
             >
-              <div className="bg-white rounded-[40px] p-8 shadow-2xl border border-slate-100 relative z-20 overflow-hidden">
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
-                      <Activity className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-black text-slate-900">Identity Audit</h4>
-                      <p className="text-[10px] text-slate-400 uppercase font-black tracking-tight">Real-time Analysis</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-2xl font-black text-blue-600">{auditScore}</span>
-                    <p className="text-[10px] text-slate-400 font-bold">EXCELLENT</p>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="h-48 bg-slate-50 rounded-2xl p-4 flex items-end justify-between gap-2 overflow-hidden">
-                    {[40, 65, 45, 90, 85, 100, 75, 95, 60, 80, 85, 90].map((h, i) => (
-                      <motion.div 
-                        key={i}
-                        initial={{ height: 0 }}
-                        animate={{ height: `${h}%` }}
-                        transition={{ delay: 0.5 + (i * 0.05), duration: 1 }}
-                        className={`w-full rounded-t-md ${i === 11 ? 'bg-blue-600' : 'bg-blue-200'}`}
-                      />
-                    ))}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                      <div className="flex items-center gap-2 text-slate-400 mb-1">
-                        <Database className="w-3.5 h-3.5" />
-                        <span className="text-[10px] font-bold">DATA POINTS</span>
-                      </div>
-                      <p className="text-lg font-black text-slate-900">2.4k+</p>
-                    </div>
-                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                      <div className="flex items-center gap-2 text-slate-400 mb-1">
-                        <Smartphone className="w-3.5 h-3.5" />
-                        <span className="text-[10px] font-bold">ALERTS</span>
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                      </div>
-                      <p className="text-lg font-black text-slate-900">SECURE</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute -top-20 -right-20 w-80 h-80 bg-blue-200 rounded-full blur-[120px] opacity-30 z-10" />
-              <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-green-200 rounded-full blur-[120px] opacity-30 z-10" />
+              <FinancialAuditScanner />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Featured Guides Section */}
-      <section className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-16">
-            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-blue-600 mb-4">Educational Resources</h2>
-            <h3 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">Master Your Financial Standing</h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                title: "Best Credit Monitoring Services",
-                desc: "A comparison of the top platforms to track your identity and scores in 2026.",
-                icon: Shield,
-                tag: "PROTECTION"
-              },
-              {
-                title: "How Tenant Screening Works",
-                desc: "Learn what landlords see when they run your background and credit checks.",
-                icon: BookOpen,
-                tag: "HOUSING"
-              },
-              {
-                title: "Improve Your Credit Score",
-                desc: "Proven strategies to boost your FICO status without debt management plans.",
-                icon: TrendingUp,
-                tag: "GROWTH"
-              },
-              {
-                title: "Best Apps for Building Credit",
-                desc: "Top mobile financial tools for establishing history for Gen Z and Millennials.",
-                icon: Smartphone,
-                tag: "TOOLS"
-              }
-            ].map((guide, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all group"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors mb-6">
-                  <guide.icon className="w-6 h-6" />
+      {/* Bento Grid Features */}
+      <section className="py-40 bg-white">
+        <div className="max-w-7xl mx-auto px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
+            <div className="space-y-4">
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-[#1a1a1a] uppercase font-display">Hub Architecture</h2>
+              <p className="text-xl text-[#5F6368] font-serif italic max-w-xl leading-relaxed">"Proprietary heuristics designed to maximize transparency in the housing & credit markets."</p>
+            </div>
+            <div className="flex -space-x-3">
+              {[1,2,3,4,5].map(i => (
+                <div key={i} className="w-14 h-14 rounded-full border-4 border-white bg-gray-100 flex items-center justify-center text-xs font-black shadow-sm">
+                  {i}
                 </div>
-                <span className="text-[10px] font-black text-blue-600 tracking-widest mb-3 block">{guide.tag}</span>
-                <h4 className="text-xl font-black text-slate-900 mb-4 leading-tight">{guide.title}</h4>
-                <p className="text-slate-500 text-sm leading-relaxed mb-6">{guide.desc}</p>
-                <Link to="/blog/credit-check-importance" className="text-slate-900 font-bold text-sm flex items-center gap-2 group-hover:text-blue-600 transition-colors">
-                  READ GUIDE <ChevronRight className="w-4 h-4" />
-                </Link>
-              </motion.div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* Trust & Tools Section */}
-      <section className="py-24 bg-white border-y border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div className="space-y-8">
-              <h3 className="text-4xl font-black text-slate-900 tracking-tight leading-tight">Professional Tools for Professional Financial Management.</h3>
-              <p className="text-slate-500 leading-relaxed text-lg">
-                We bridge the gap between complex bureau data and actionable consumer insights. 
-                Our platform provides the same transparency usually reserved for financial analysts.
-              </p>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+            {/* Main Feature - Bento 1 */}
+            <div className="md:col-span-8 bg-gray-50 rounded-[3rem] p-16 border border-gray-100 flex flex-col justify-between group hover:border-blue-200 transition-all relative overflow-hidden">
+               <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-[0.08] transition-all">
+                <Activity className="w-64 h-64 text-blue-600" />
+              </div>
               
-              <div className="space-y-4">
-                {[
-                  "Real-Time ID Protection Alerts",
-                  "Tenant Rights Advocacy Network",
-                  "FICO Score Simulators",
-                  "FCRA Compliance Checklists"
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center">
-                      <CheckCircle2 className="w-3 h-3 text-blue-600" />
-                    </div>
-                    <span className="font-bold text-slate-700 text-sm">{item}</span>
-                  </div>
-                ))}
+              <div className="space-y-8 relative z-10">
+                <div className="w-20 h-20 rounded-[2rem] bg-blue-600 flex items-center justify-center text-white shadow-xl shadow-blue-500/20">
+                  <Activity className="w-10 h-10" />
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-4xl md:text-5xl font-black tracking-tight font-display uppercase leading-none">Credit Surveillance v4.2</h3>
+                  <p className="text-[#5F6368] text-xl font-medium leading-relaxed max-w-xl">
+                    Passive monitoring is no longer enough. Our proactive identification system scans for shadow inquiries before they settle on your report.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="pt-16 flex items-center gap-6 relative z-10">
+                <div className="h-1 flex-1 bg-white rounded-full overflow-hidden">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "75%" }}
+                    transition={{ duration: 2 }}
+                    className="h-full bg-blue-600" 
+                  />
+                </div>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#5F6368] font-display">System Resilience: Optimal</span>
               </div>
             </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="p-8 bg-blue-50 rounded-3xl border border-blue-100">
-                <Lock className="w-8 h-8 text-blue-600 mb-4" />
-                <h4 className="font-black text-slate-900 mb-2">Zero Data Retention</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  We verify your status without storing critical personal identifiers.
+
+            {/* Side - Bento 2 */}
+            <div className="md:col-span-4 bg-[#1a1a1a] rounded-[3rem] p-12 flex flex-col justify-between text-white group hover:bg-blue-600 transition-all duration-500 shadow-2xl">
+              <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-white/20 transition-all">
+                <Lock className="w-7 h-7 text-blue-400 group-hover:text-white" />
+              </div>
+              <div className="space-y-6">
+                <h4 className="text-3xl font-black uppercase tracking-tighter font-display leading-tight">Zero-Trust <br />Handshake</h4>
+                <p className="text-sm text-white/50 leading-relaxed font-medium group-hover:text-white/90 transition-colors">
+                  We use transient edge nodes to verify eligibility. Your Social Security Number never touches our database.
                 </p>
               </div>
-              <div className="p-8 bg-slate-50 rounded-3xl border border-slate-100">
-                <Globe className="w-8 h-8 text-slate-400 mb-4" />
-                <h4 className="font-black text-slate-900 mb-2">US Native Coverage</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Optimized specifically for the regulatory landscape of all 50 US States.
-                </p>
+              <div className="pt-8">
+                 <div className="h-0.5 w-12 bg-blue-400 group-hover:bg-white transition-colors" />
               </div>
-              <div className="p-8 bg-slate-50 rounded-3xl border border-slate-100">
-                <ShieldCheck className="w-8 h-8 text-slate-400 mb-4" />
-                <h4 className="font-black text-slate-900 mb-2">SSL Hardened</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  256-bit AES encryption end-to-end for every audit profile.
-                </p>
+            </div>
+
+            {/* Bottom Left - Bento 3 */}
+            <div className="md:col-span-4 bg-white border border-gray-100 rounded-[3rem] p-12 flex flex-col items-center text-center justify-center space-y-4 hover:shadow-2xl transition-all group">
+               <div className="text-6xl font-black text-blue-600 font-display group-hover:scale-110 transition-transform tracking-tighter">1.4M+</div>
+               <p className="text-xs font-black uppercase tracking-[0.3em] text-[#5F6368] font-display">Identity Audits completed</p>
+            </div>
+
+            {/* Bottom Right - Bento 4 */}
+            <div className="md:col-span-8 bg-blue-50 rounded-[3rem] p-12 border border-blue-100 flex flex-col md:flex-row items-center gap-12 group hover:shadow-xl transition-all">
+              <div className="w-32 h-32 bg-white rounded-[2.5rem] flex items-center justify-center shrink-0 shadow-lg group-hover:rotate-6 transition-all">
+                 <ShieldCheck className="w-16 h-16 text-blue-600" />
               </div>
-              <div className="p-8 bg-green-50 rounded-3xl border border-green-100">
-                <Award className="w-8 h-8 text-green-600 mb-4" />
-                <h4 className="font-black text-slate-900 mb-2">Consumer Advocacy</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Helping over 1.4 million Americans secure their financial identities.
+              <div className="space-y-4">
+                <h4 className="text-3xl font-black tracking-tight font-display uppercase">Tenant Rights Protection</h4>
+                <p className="text-lg text-[#5F6368] font-medium leading-relaxed">
+                  Specialized protocols for the American rental market. We verify what landlords see before they see it.
                 </p>
+                <div className="flex gap-2">
+                   {[1,2,3].map(i => <div key={i} className="h-1 w-8 bg-blue-600/20 rounded-full" />)}
+                </div>
               </div>
             </div>
           </div>
@@ -1665,15 +1704,10 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
 
       <SEOContentSection device={deviceRestricted} />
       <KeywordCloud />
+      <LiveNotifications region={geoRestricted} />
     </div>
   );
 };
-
-
-
-
-
-
 
 export default function App() {
   return (
