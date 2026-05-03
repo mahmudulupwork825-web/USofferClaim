@@ -1403,7 +1403,14 @@ const FinancialAuditScanner = () => {
   }, [steps.length]);
 
   return (
-    <div className="bg-[#121212] rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden border border-white/5">
+    <div className="bg-[#121212] rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden border border-white/5 group">
+      {/* Data Pulse Overlays */}
+      <div className="absolute top-10 right-10 flex flex-col gap-1 items-end opacity-20 pointer-events-none group-hover:opacity-40 transition-opacity">
+        {["0x4F2A", "SYSCALL_INIT", "BUREAU_RESOLVE", "ENC_SHA256"].map((t, i) => (
+          <span key={i} className="text-[9px] font-mono font-bold animate-pulse" style={{ animationDelay: `${i * 0.5}s` }}>{t}</span>
+        ))}
+      </div>
+      
       <div className="absolute top-0 right-0 p-8">
         <Activity className="w-8 h-8 text-[#4285F4] opacity-50 animate-pulse" />
       </div>
@@ -1452,6 +1459,34 @@ const FinancialAuditScanner = () => {
 
 const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestricted }: LandingPageProps) => {
   const [checkStatus, setCheckStatus] = useState<'checking' | 'allowed' | 'geo_denied' | 'device_denied'>('checking');
+  const [activeHandshakes, setActiveHandshakes] = useState(148);
+  const [tickerMessage, setTickerMessage] = useState("ESTABLISHING SECURE HANDSHAKE WITH US-EAST-1 NODES...");
+
+  useEffect(() => {
+    const handshakeInterval = setInterval(() => {
+      setActiveHandshakes(prev => Math.min(prev + Math.floor(Math.random() * 5), 482));
+    }, 5000);
+
+    const messages = [
+      "ESTABLISHING SECURE HANDSHAKE WITH US-EAST-1 NODES...",
+      "SCANNING FCRA COMPLIANCE PROTOCOLS...",
+      "ID VERIFICATION NODE: SWITZERLAND-CH-1 ACTIVE",
+      "DATA PURGE COMPLETED: SESSION TOKEN ENCRYPTED",
+      "REGULATORY AUDIT: 142 BUREAU CONNECTIONS VERIFIED",
+      "CONSUMER PROTECTION LAYER 4: ONLINE"
+    ];
+
+    let msgIndex = 0;
+    const tickerInterval = setInterval(() => {
+      msgIndex = (msgIndex + 1) % messages.length;
+      setTickerMessage(messages[msgIndex]);
+    }, 4000);
+
+    return () => {
+      clearInterval(handshakeInterval);
+      clearInterval(tickerInterval);
+    };
+  }, []);
   
   useEffect(() => {
     document.title = title;
@@ -1541,8 +1576,26 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#1a1a1a] selection:bg-blue-600 selection:text-white pb-20">
+      {/* Technical Ticker */}
+      <div className="fixed top-20 left-0 right-0 z-40 bg-[#1a1a1a] border-y border-white/5 py-2 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-8 flex justify-between items-center text-[9px] font-black tracking-[0.25em] font-display">
+          <div className="flex items-center gap-4">
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+            </span>
+            <span className="text-white/40 uppercase">System Status:</span>
+            <span className="text-blue-400 uppercase">{tickerMessage}</span>
+          </div>
+          <div className="hidden md:flex items-center gap-6">
+            <span className="text-white/40">ACTIVE NODES: <span className="text-white font-mono">{activeHandshakes}</span></span>
+            <span className="text-white/40">LATENCY: <span className="text-white font-mono">14ms</span></span>
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <section className="relative pt-48 pb-32 overflow-hidden border-b border-gray-100">
+      <section className="relative pt-64 pb-32 overflow-hidden border-b border-gray-100">
          {/* Background elements */}
         <div className="absolute top-0 right-0 w-2/3 h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50/50 via-transparent to-transparent -z-10" />
         
@@ -1562,19 +1615,19 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-[clamp(3.5rem,9vw,6.5rem)] font-black leading-[0.82] tracking-tighter text-[#1a1a1a] font-display"
+                className="text-[clamp(3.5rem,9vw,7.5rem)] font-black leading-[0.8] tracking-tighter text-[#1a1a1a] font-display uppercase"
               >
                 See What <br />
-                <span className="text-[#4285F4]">They</span> See.
+                <span className="text-blue-600">They</span> See.
               </motion.h1>
 
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-2xl text-[#5F6368] font-serif italic leading-relaxed max-w-xl"
+                className="text-2xl text-[#5F6368] font-serif italic leading-relaxed max-w-xl border-l-4 border-blue-600 pl-8"
               >
-                "Knowledge is the ultimate leverage. We reveal the background data used by banks and landlords, giving you the power to protect your financial legacy."
+                "Identity is leverage. We reveal the hidden data used by institutional lenders and housing authorities, empowering you to protect your financial legacy."
               </motion.p>
 
               <motion.div 
@@ -1609,6 +1662,41 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
               <FinancialAuditScanner />
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-[#1a1a1a] border-y border-white/5">
+        <div className="max-w-7xl mx-auto px-8">
+           <div className="flex flex-wrap justify-between items-center gap-12 opacity-40 hover:opacity-100 transition-opacity duration-700">
+              <div className="flex items-center gap-4 group">
+                <ShieldCheck className="w-10 h-10 text-blue-500" />
+                <div className="font-display text-white">
+                  <div className="font-black text-xl leading-none">FCRA</div>
+                  <div className="text-[9px] font-black uppercase tracking-widest text-white/40">Regulatory Compliance</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <Database className="w-10 h-10 text-blue-500" />
+                <div className="font-display text-white">
+                  <div className="font-black text-xl leading-none">SOC2</div>
+                  <div className="text-[9px] font-black uppercase tracking-widest text-white/40">Data Integrity Opt</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <Globe className="w-10 h-10 text-blue-500" />
+                <div className="font-display text-white">
+                  <div className="font-black text-xl leading-none">GDPR</div>
+                  <div className="text-[9px] font-black uppercase tracking-widest text-white/40">Privacy Standard</div>
+                </div>
+              </div>
+              <div className="hidden lg:flex items-center gap-4">
+                <Lock className="w-10 h-10 text-blue-500" />
+                <div className="font-display text-white">
+                  <div className="font-black text-xl leading-none">AES-256</div>
+                  <div className="text-[9px] font-black uppercase tracking-widest text-white/40">Military Encryption</div>
+                </div>
+              </div>
+           </div>
         </div>
       </section>
 
