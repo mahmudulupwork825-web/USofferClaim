@@ -1041,8 +1041,42 @@ const CreditCheckGuidePage = () => {
       document.head.appendChild(canonical);
     }
     canonical.setAttribute('href', 'https://offereligibilitycheck.com/blog/credit-check-importance');
+
+    // Article Schema for SEO
+    const articleSchema = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Why Credit Checks are Vital for US Residents | The Definitive Financial Guide 2026",
+      "description": "An in-depth analysis of the US credit system, its impact on housing, and how to utilize credit monitoring websites effectively.",
+      "author": {
+        "@type": "Organization",
+        "name": "OEC Financial Advocacy Group"
+      },
+      "datePublished": "2026-05-04",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Offer Eligibility Check",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://offereligibilitycheck.com/favicon.ico"
+        }
+      }
+    };
+
+    const script = document.createElement('script');
+    script.id = 'article-ld-json';
+    script.type = 'application/ld+json';
+    script.innerHTML = JSON.stringify(articleSchema);
+    document.head.appendChild(script);
     
     window.scrollTo(0, 0);
+
+    return () => {
+      const existingScript = document.getElementById('article-ld-json');
+      if (existingScript) {
+        document.head.removeChild(existingScript);
+      }
+    };
   }, []);
 
   return (
@@ -1163,6 +1197,27 @@ const CreditCheckGuidePage = () => {
             <p>
               In our fragmented digital age, you might have a checking account at Chase, a credit card at Amex, a car loan with Ford, and a student loan with SoFi. A comprehensive credit monitoring site aggregates all of these into a single "Net Worth" or "Debt-to-Income" view. This oversight is the first step toward true financial freedom and debt reduction.
             </p>
+          </section>
+
+          <section className="bg-blue-600 rounded-[3rem] p-12 text-white mb-20 shadow-2xl">
+            <h2 className="text-4xl font-black mb-8 uppercase font-display tracking-tight">OEC Tactical Checklist</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[
+                "Freeze credit with all 3 bureaus if not actively borrowing.",
+                "Review 'Soft Inquiries' monthly for unknown nodes.",
+                "Verify FCRA compliance markers on every data disclosure.",
+                "Maintain <30% total credit utilization for optimal scoring.",
+                "Dispute inaccuracies within 30 days of discovery.",
+                "Enable 2FA on every financial login connected to your SSN."
+              ].map((item, i) => (
+                <div key={i} className="flex gap-4 items-start">
+                   <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                     <CheckCircle2 className="w-4 h-4 text-white" />
+                   </div>
+                   <p className="font-bold leading-tight m-0">{item}</p>
+                </div>
+              ))}
+            </div>
           </section>
 
           <section className="space-y-8 mb-20 text-lg">
@@ -1335,6 +1390,29 @@ const SurveysPage = () => {
   return (
     <div className="min-h-screen bg-[#fafafa] pt-48 pb-32">
       <div className="max-w-7xl mx-auto px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+          {[
+            { label: "FCRA INDEX", value: "98.4", delta: "+0.2%", desc: "Data Integrity Rating" },
+            { label: "BUREAU LATENCY", value: "14ms", delta: "-2ms", desc: "US-EAST-1 Sync Speed" },
+            { label: "IDENTITY MINT", value: "24.8k", delta: "NEW", desc: "Daily Verified Sessions" }
+          ].map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-white border border-gray-100 p-8 rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all group"
+            >
+              <div className="flex justify-between items-start mb-6">
+                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 font-display group-hover:text-blue-600 transition-colors">{item.label}</span>
+                 <span className={`text-[10px] font-black px-2 py-1 rounded-md ${item.delta.startsWith('+') ? 'bg-green-50 text-green-600' : 'bg-blue-50 text-blue-600'}`}>{item.delta}</span>
+              </div>
+              <div className="text-4xl font-black font-display text-[#1a1a1a] mb-2">{item.value}</div>
+              <p className="text-sm font-serif italic text-[#5F6368]">{item.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-12">
           <div className="space-y-6">
             <motion.div
@@ -1580,6 +1658,43 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
       "IDENTITY INTEGRITY SCORE: OPTIMAL"
     ];
 
+    // FAQ Schema for SEO
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Will an audit impact my credit score?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Our audits utilize 'Soft Inquiry' protocols. Your FICO and Vantage scores remain untouched during our surveillance process."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens to my personal data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We operate under a 'Zero-Retention' policy. Encrypted tokens are used for verification, and sensitive data is purged immediately after your session."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does this help with tenant screening?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Landlords use secondary bureaus that often contain errors. We give you the same tools they use, allowing you to dispute inaccuracies before applying."
+          }
+        }
+      ]
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.innerHTML = JSON.stringify(faqSchema);
+    document.head.appendChild(script);
+
     let msgIndex = 0;
     const tickerInterval = setInterval(() => {
       msgIndex = (msgIndex + 1) % messages.length;
@@ -1589,6 +1704,9 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
     return () => {
       clearInterval(handshakeInterval);
       clearInterval(tickerInterval);
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
     };
   }, []);
   
