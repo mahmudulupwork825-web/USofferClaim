@@ -167,10 +167,11 @@ const Navbar = () => {
   const location = useLocation();
 
   const navLinks = [
-    { name: "Intelligence Hub", path: "/surveys" },
-    { name: "Audit Protocols", path: "/verify-status" },
-    { name: "Resource Hub", path: "/resources" },
-    { name: "Security Vault", path: "/signup" },
+    { name: "Surveys & Rewards", path: "/surveys" },
+    { name: "Blog", path: "/blog" },
+    { name: "Status Checker", path: "/verify-status" },
+    { name: "Helpful Links", path: "/resources" },
+    { name: "Sign Up", path: "/signup" },
   ];
 
   return (
@@ -186,7 +187,7 @@ const Navbar = () => {
             </motion.div>
             <div className="flex flex-col">
               <span className="font-display font-black text-2xl text-[#1a1a1a] tracking-tight leading-none">OEC</span>
-              <span className="text-[9px] font-black text-[#5F6368] uppercase tracking-[0.3em] leading-tight font-display">Intelligence</span>
+              <span className="text-[9px] font-black text-[#5F6368] uppercase tracking-[0.3em] leading-tight font-display">Resources</span>
             </div>
           </Link>
 
@@ -205,7 +206,7 @@ const Navbar = () => {
             ))}
             <div className="h-4 w-[1px] bg-gray-200" />
             <Link to="/verify-status" className="px-8 py-3 bg-[#1a1a1a] text-white text-[11px] font-black rounded-xl hover:bg-black hover:shadow-2xl hover:-translate-y-0.5 transition-all active:scale-95 font-display uppercase tracking-widest">
-              LAUNCH AUDIT
+              CHECK STATUS
             </Link>
           </div>
 
@@ -243,7 +244,7 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
                 className="w-full py-4 bg-[#4285F4] text-white text-center font-black rounded-2xl text-lg shadow-lg"
               >
-                Launch Verification
+                Check Eligibility
               </Link>
             </div>
           </motion.div>
@@ -264,7 +265,7 @@ const Footer = () => (
             </div>
             <div className="flex flex-col">
               <span className="font-display font-black text-3xl text-[#1a1a1a] tracking-tight leading-none uppercase">OEC</span>
-              <span className="text-[9px] font-black text-[#5F6368] uppercase tracking-[0.3em] leading-tight font-display">Intelligence</span>
+              <span className="text-[9px] font-black text-[#5F6368] uppercase tracking-[0.3em] leading-tight font-display">Resources</span>
             </div>
           </Link>
           <p className="text-[#5F6368] text-lg font-serif italic leading-relaxed max-w-sm">
@@ -279,21 +280,21 @@ const Footer = () => (
         <div>
           <h4 className="text-[#1a1a1a] font-display font-black mb-8 uppercase tracking-widest text-[10px]">Operations</h4>
           <ul className="space-y-4">
-            <li><Link to="/surveys" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-xs transition-colors font-display">Intelligence Hub</Link></li>
-            <li><Link to="/verify-status" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-xs transition-colors font-display">Audit Protocols</Link></li>
-            <li><Link to="/resources" className="text-blue-600 hover:text-blue-700 font-bold uppercase tracking-tight text-xs transition-colors font-display">Resource Hub</Link></li>
-            <li><Link to="/signup" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-xs transition-colors font-display">Security Vault</Link></li>
+            <li><Link to="/surveys" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-xs transition-colors font-display">Surveys & Rewards</Link></li>
+            <li><Link to="/verify-status" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-xs transition-colors font-display">Status Checker</Link></li>
+            <li><Link to="/resources" className="text-blue-600 hover:text-blue-700 font-bold uppercase tracking-tight text-xs transition-colors font-display">Helpful Links</Link></li>
+            <li><Link to="/signup" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-xs transition-colors font-display">Sign Up</Link></li>
           </ul>
         </div>
         <div>
           <h4 className="text-[#1a1a1a] font-display font-black mb-8 uppercase tracking-widest text-[10px]">Knowledge</h4>
           <ul className="space-y-4">
-            <li><Link to="/earn-10-online" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Earning Blueprint</Link></li>
-            <li><Link to="/blog/credit-check-importance" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Housing Guides</Link></li>
+            <li><Link to="/earn-10-online" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Earning Guide</Link></li>
+            <li><Link to="/blog/credit-check-importance" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Home Guides</Link></li>
             <li><Link to="/blog/northern-illinois-plumbing-guide" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">IL Plumbing Guide</Link></li>
             <li><Link to="/blog/emergency-plumber-illinois" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Emergency Guide</Link></li>
             <li><Link to="/about" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">The Vision</Link></li>
-            <li><Link to="/privacy" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Privacy Stack</Link></li>
+            <li><Link to="/privacy" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Privacy Policy</Link></li>
           </ul>
         </div>
       </div>
@@ -377,9 +378,9 @@ const AboutPage = () => {
               <div className="w-16 h-16 rounded-2xl bg-[#4285F4]/10 flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
                 <Zap className="w-8 h-8 text-[#4285F4]" />
               </div>
-              <h3 className="text-[#202124] font-black text-2xl mb-6">Neural Verification</h3>
+              <h3 className="text-[#202124] font-black text-2xl mb-6">Fast Checker</h3>
               <p className="text-[#5F6368] leading-relaxed text-lg">
-                Our proprietary checking engine utilizes edge computing to analyze geographic and system variables in milliseconds, ensuring you only see valid offers.
+                Our proprietary checking engine uses fast technology to analyze geographic and system variables in milliseconds, ensuring you only see valid offers.
               </p>
             </div>
             <div className="p-12 bg-white rounded-[3rem] border border-gray-100 hover:shadow-2xl transition-all group relative overflow-hidden">
@@ -937,7 +938,7 @@ const SignUpPage = () => {
 
 const ResourceHubPage = () => {
   useEffect(() => {
-    document.title = "Consumer Resource Hub | Official Financial Advocacy Links - OEC";
+    document.title = "Help Center | Official Financial Advocacy Links - OEC";
     window.scrollTo(0, 0);
   }, []);
 
@@ -987,13 +988,13 @@ const ResourceHubPage = () => {
               className="inline-flex items-center gap-3 bg-white border border-gray-100 px-4 py-2 rounded-2xl shadow-sm"
             >
               <Database className="w-4 h-4 text-blue-600" />
-              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#5F6368] font-display">Verified Resource Catalog</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#5F6368] font-display">Helpful Resources</span>
             </motion.div>
             <h1 className="text-6xl md:text-8xl font-black text-[#1a1a1a] tracking-tighter uppercase font-display leading-[0.85]">
-              Intelligence <br /><span className="text-blue-600">Archive.</span>
+              Resources <br /><span className="text-blue-600">Library.</span>
             </h1>
             <p className="text-xl text-[#5F6368] font-serif italic leading-relaxed border-l-4 border-blue-600 pl-8">
-              "A curated repository of official regulatory nodes and consumer advocacy documentation. Accessing these links does not impact your residency audit."
+              "A collection of official websites and helpful documents. Accessing these links does not impact your check."
             </p>
           </div>
 
@@ -1018,7 +1019,7 @@ const ResourceHubPage = () => {
                           "{link.desc}"
                         </p>
                         <div className="pt-6 flex items-center gap-2 text-[10px] font-black tracking-widest text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity uppercase">
-                          {link.isInternal ? "Open Local Report" : "Access Remote Node"} <ArrowRight className="w-3 h-3" />
+                          {link.isInternal ? "Open Report" : "Visit Website"} <ArrowRight className="w-3 h-3" />
                         </div>
                       </div>
                     );
@@ -1812,12 +1813,102 @@ const EmergencyPlumberPage = () => {
   );
 };
 
+const BlogListPage = () => {
+  useEffect(() => {
+    document.title = "Our Blog | Expert Guides & Financial Info - OEC";
+    window.scrollTo(0, 0);
+  }, []);
+
+  const posts = [
+    {
+      title: "The Earning Blueprint: $10-$1500/Month Strategy",
+      desc: "Learn how to scale market research activity into a sustainable monthly protocol.",
+      path: "/earn-10-online",
+      category: "ECONOMICS",
+      icon: <TrendingUp className="w-6 h-6" />
+    },
+    {
+      title: "Why Credit Checks are Vital for US Residents",
+      desc: "The definitive 2026 guide on navigating the US credit system and housing audits.",
+      path: "/blog/credit-check-importance",
+      category: "ADVOCACY",
+      icon: <Scale className="w-6 h-6" />
+    },
+    {
+      title: "Northern Illinois Plumbing Survival Guide",
+      desc: "Seasonal risks, infrastructure reports, and emergency containment for IL homeowners.",
+      path: "/blog/northern-illinois-plumbing-guide",
+      category: "INFRASTRUCTURE",
+      icon: <ShieldCheck className="w-6 h-6" />
+    },
+    {
+      title: "Emergency Plumber: Illinois Action Protocol",
+      desc: "Immediate steps for burst pipes and flooding. 24/7 response coordination.",
+      path: "/blog/emergency-plumber-illinois",
+      category: "EMERGENCY",
+      icon: <Zap className="w-6 h-6" />
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#fafafa] pt-48 pb-32">
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="mb-24 space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest"
+          >
+            <BookOpen className="w-3 h-3" /> Our Blog
+          </motion.div>
+          <h1 className="text-[#1a1a1a] text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] uppercase font-display">
+            The <span className="text-blue-600">Latest</span> Blog Posts
+          </h1>
+          <p className="text-2xl text-[#5F6368] font-medium max-w-3xl font-serif italic">
+            Strategic briefings, regulatory updates, and consumer protection protocols curated for the modern sovereign individual.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {posts.map((post, i) => (
+            <Link 
+              key={i}
+              to={post.path}
+              className="group bg-white border border-gray-100 rounded-[3rem] p-12 hover:shadow-2xl transition-all flex flex-col justify-between min-h-[400px] no-underline"
+            >
+              <div className="space-y-8">
+                <div className="flex justify-between items-start">
+                  <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
+                    {post.icon}
+                  </div>
+                  <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] font-display">{post.category}</span>
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-3xl font-black text-[#1a1a1a] uppercase tracking-tighter leading-none group-hover:text-blue-600 transition-colors">
+                    {post.title}
+                  </h3>
+                  <p className="text-lg text-[#5F6368] font-medium leading-relaxed font-serif italic">
+                    "{post.desc}"
+                  </p>
+                </div>
+              </div>
+              <div className="pt-8 flex items-center gap-2 text-xs font-black text-blue-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                Read More <ArrowRight className="w-4 h-4" />
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const SurveysPage = () => {
   const surveys = [
     {
       id: "74817",
-      title: "Landlord Visibility Audit (iOS)",
-      description: "See the specific background data landlords in Switzerland access through Apple-verified secure nodes.",
+      title: "Landlord Visibility Check (iOS)",
+      description: "See the specific background data landlords in Switzerland access through secure nodes.",
       path: "/surveys-ios",
       region: "CH",
       device: "Apple",
@@ -1880,7 +1971,7 @@ const SurveysPage = () => {
   ];
 
   useEffect(() => {
-    document.title = "Intelligence Hub | Audit Activation Center - OEC";
+    document.title = "Rewards Center | Rewards Dashboard - OEC";
     window.scrollTo(0, 0);
   }, []);
 
@@ -1918,11 +2009,11 @@ const SurveysPage = () => {
               className="inline-flex items-center gap-3 bg-white border border-gray-100 px-4 py-2 rounded-2xl shadow-sm"
             >
               <Globe className="w-4 h-4 text-blue-600" />
-              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#5F6368] font-display">Global Intelligence Node Enabled</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#5F6368] font-display">Service Active</span>
             </motion.div>
             <h1 className="text-[clamp(3rem,6vw,5rem)] font-black text-[#1a1a1a] tracking-tight uppercase font-display leading-[0.85]">
-              Universal <br />
-              <span className="text-blue-600">Access</span> Panel.
+              Your Rewards <br />
+              <span className="text-blue-600">Dashboard</span>.
             </h1>
           </div>
           <p className="text-xl text-[#5F6368] font-serif italic max-w-xl leading-relaxed border-l-4 border-blue-600 pl-8">
@@ -1971,7 +2062,7 @@ const SurveysPage = () => {
                   to={survey.path}
                    className="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-[#1a1a1a] hover:gap-5 transition-all group/btn font-display"
                 >
-                  ESTABLISH CONNECTION <ArrowRight className="w-4 h-4" />
+                  GET STARTED <ArrowRight className="w-4 h-4" />
                 </Link>
                 <div className="mt-4 h-1 w-full bg-gray-50 rounded-full overflow-hidden">
                    <div className={`h-full ${survey.color} w-3 group-hover:w-full transition-all duration-1000`} />
@@ -2359,7 +2450,7 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                   onClick={handleCTA}
                   className="px-12 py-6 bg-[#1a1a1a] text-white rounded-2xl font-black text-xl hover:bg-black hover:shadow-2xl hover:-translate-y-1 transition-all flex items-center justify-center gap-3 group font-display uppercase tracking-tight"
                 >
-                  AUDIT MY PROFILE <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                  CHECK MY STATUS <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <button className="px-12 py-6 bg-white border border-gray-200 text-[#1a1a1a] rounded-2xl font-black text-xl hover:bg-gray-50 transition-all font-display uppercase tracking-tight">
                   OUR MISSION
@@ -2489,7 +2580,7 @@ const LandingPage = ({ offerUrl, title, description, geoRestricted, deviceRestri
                <div className="text-6xl font-black text-blue-600 font-display group-hover:scale-110 transition-transform tracking-tighter">1.4M+</div>
                <p className="text-xs font-black uppercase tracking-[0.3em] text-[#5F6368] font-display">Identity Audits completed</p>
                <div className="pt-4 flex items-center gap-2 text-[10px] font-black text-blue-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                 See Resource Hub <ArrowRight className="w-3 h-3" />
+                 See Help Center <ArrowRight className="w-3 h-3" />
                </div>
             </Link>
 
@@ -2758,6 +2849,7 @@ export default function App() {
         />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/blog" element={<BlogListPage />} />
         <Route path="/earn-10-online" element={<BlogPostPage />} />
         <Route path="/blog/credit-check-importance" element={<CreditCheckGuidePage />} />
         <Route path="/signup" element={<SignUpPage />} />
