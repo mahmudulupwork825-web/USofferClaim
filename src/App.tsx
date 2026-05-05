@@ -291,6 +291,7 @@ const Footer = () => (
             <li><Link to="/earn-10-online" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Earning Blueprint</Link></li>
             <li><Link to="/blog/credit-check-importance" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Housing Guides</Link></li>
             <li><Link to="/blog/northern-illinois-plumbing-guide" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">IL Plumbing Guide</Link></li>
+            <li><Link to="/blog/emergency-plumber-illinois" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Emergency Guide</Link></li>
             <li><Link to="/about" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">The Vision</Link></li>
             <li><Link to="/privacy" className="text-[#5F6368] hover:text-blue-600 font-bold uppercase tracking-tight text-[10px] transition-colors font-display">Privacy Stack</Link></li>
           </ul>
@@ -969,7 +970,8 @@ const ResourceHubPage = () => {
     {
       category: "LOCAL INFRASTRUCTURE GUIDES",
       links: [
-        { name: "Northern Illinois Plumbing Guide", url: "/blog/northern-illinois-plumbing-guide", desc: "Strategic report on seasonal plumbing risks and emergency repair resources for IL residents.", isInternal: true }
+        { name: "Northern Illinois Plumbing Guide", url: "/blog/northern-illinois-plumbing-guide", desc: "Strategic report on seasonal plumbing risks and emergency repair resources for IL residents.", isInternal: true },
+        { name: "Emergency Plumber: Illinois Action Guide", url: "/blog/emergency-plumber-illinois", desc: "What to do in a plumbing crisis. Immediate containment steps and emergency contact lookup.", isInternal: true }
       ]
     }
   ];
@@ -1611,6 +1613,201 @@ const PlumbingGuidePage = () => {
         </motion.div>
       </div>
       <KeywordCloud />
+    </div>
+  );
+};
+
+const EmergencyPlumberPage = () => {
+  useEffect(() => {
+    document.title = "Emergency Plumber Near Me Illinois: 24/7 Urgent Repair Guide | OEC";
+    
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://offereligibilitycheck.com/blog/emergency-plumber-illinois');
+
+    // Article & FAQ Schema for SEO
+    const articleSchema = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Emergency Plumber Near Me in Illinois: What to Do When Every Second Counts",
+      "description": "Immediate steps to take during a plumbing emergency in Illinois. Learn how to shut off water, contain leaks, and find 24/7 plumbing services.",
+      "author": {
+        "@type": "Organization",
+        "name": "OEC Emergency Response"
+      },
+      "datePublished": "2026-05-05",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Offer Eligibility Check",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://offereligibilitycheck.com/favicon.ico"
+        }
+      }
+    };
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is considered a plumbing emergency?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Situations requiring immediate action include burst pipes, sewer backups, no running water, overflowing toilets, or major flooding."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the first thing to do in a plumbing emergency?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Shut off the main water supply immediately to stop further flooding and prevent excessive property damage."
+          }
+        }
+      ]
+    };
+
+    const s1 = document.createElement('script');
+    s1.id = 'emergency-article-ld';
+    s1.type = 'application/ld+json';
+    s1.innerHTML = JSON.stringify(articleSchema);
+    document.head.appendChild(s1);
+
+    const s2 = document.createElement('script');
+    s2.id = 'emergency-faq-ld';
+    s2.type = 'application/ld+json';
+    s2.innerHTML = JSON.stringify(faqSchema);
+    document.head.appendChild(s2);
+    
+    window.scrollTo(0, 0);
+
+    return () => {
+      const e1 = document.getElementById('emergency-article-ld');
+      const e2 = document.getElementById('emergency-faq-ld');
+      if (e1) document.head.removeChild(e1);
+      if (e2) document.head.removeChild(e2);
+    };
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#fafafa] pt-32 pb-24 font-sans">
+      <div className="max-w-4xl mx-auto px-6">
+        <motion.div
+           initial={{ opacity: 0, y: 20 }}
+           animate={{ opacity: 1, y: 0 }}
+           className="prose max-w-none text-[#5F6368] prose-blue"
+        >
+          <div className="flex items-center gap-4 mb-12">
+            <div className="w-14 h-14 rounded-full border border-red-100 bg-red-50 flex items-center justify-center">
+              <Zap className="w-7 h-7 text-red-600 animate-pulse" />
+            </div>
+            <div>
+              <p className="text-[#202124] font-black text-lg m-0 uppercase tracking-tighter">Emergency Response Unit</p>
+              <p className="text-sm text-[#5F6368] m-0 font-medium">Illinois Rapid Containment Protocol</p>
+            </div>
+          </div>
+
+          <h1 className="text-[#202124] text-5xl md:text-7xl font-black tracking-tighter leading-[0.85] mb-12 uppercase font-display">
+            🚨 Emergency Plumber <span className="text-red-600">Near Me</span> in Illinois
+          </h1>
+
+          <div className="bg-red-50 p-12 rounded-[3rem] border border-red-100 mb-20 shadow-sm transition-all hover:shadow-md">
+            <p className="text-2xl leading-relaxed text-[#1a1a1a] font-medium m-0 font-serif italic">
+              "When water starts going where it shouldn’t, time stops being casual. A burst pipe can turn a calm home into an indoor lake faster than you’d expect."
+            </p>
+          </div>
+
+          <section className="space-y-12 mb-24">
+            <div className="flex items-center gap-6">
+              <h2 className="text-[#202124] text-4xl font-black m-0 tracking-tight uppercase shrink-0">💥 Critical Situations</h2>
+              <div className="h-px w-full bg-gray-100" />
+            </div>
+            <p className="text-xl">Not every drip deserves panic. But these situations demand <span className="font-bold text-red-600 uppercase">immediate evacuation of water nodes:</span></p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                { title: "Burst Pipes", icon: <AlertTriangle className="w-6 h-6" /> },
+                { title: "Sewer Backups", icon: <TrendingUp className="w-6 h-6 rotate-180" /> },
+                { title: "No Running Water", icon: <Clock className="w-6 h-6" /> },
+                { title: "Toilets Overflowing", icon: <ArrowRight className="w-6 h-6 rotate-90" /> },
+                { title: "Heater Failure", icon: <Zap className="w-6 h-6" /> },
+                { title: "Flooding", icon: <Globe className="w-6 h-6" /> }
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4 p-8 bg-white border border-gray-100 rounded-3xl shadow-sm hover:border-red-200 transition-all">
+                  <div className="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center shrink-0">{item.icon}</div>
+                  <span className="text-xl font-black uppercase text-[#1a1a1a] tracking-tight leading-none">{item.title}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="bg-blue-600 rounded-[4rem] p-16 text-white mb-24 shadow-2xl relative overflow-hidden">
+            <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+            <h2 className="text-5xl font-black mb-12 uppercase tracking-tighter font-display m-0">⚡ Damage Control Mode</h2>
+            <div className="space-y-10">
+              {[
+                { step: "01", label: "Kill Water Supply", desc: "Find your main water valve (usually in basement or near meter) and turn it off immediately." },
+                { step: "02", label: "Shut Down Heater", desc: "Turn off the water heater to avoid pressure buildup or internal overheating during dry conditions." },
+                { step: "03", label: "Contain the Flood", desc: "Use towels, buckets, or absorbent mats to steer water away from electrical outlets and hardwoods." },
+                { step: "04", label: "Avoid DIY Hacks", desc: "Temporary fixes can increase pressure in damaged lines. Wait for professional tooling." }
+              ].map((item, i) => (
+                <div key={i} className="flex gap-8 group">
+                  <span className="text-4xl font-black text-white/30 group-hover:text-white transition-colors">{item.step}</span>
+                  <div className="space-y-2">
+                    <h4 className="text-2xl font-black uppercase tracking-tight m-0">{item.label}</h4>
+                    <p className="text-white/80 text-lg m-0 leading-relaxed font-serif italic">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="mb-24 space-y-12">
+            <h2 className="text-[#202124] text-4xl font-black tracking-tight uppercase">🛠️ Finding the Right Node</h2>
+            <div className="bg-gray-50 border border-gray-100 p-12 rounded-[3.5rem] space-y-8">
+              <p className="text-xl leading-relaxed m-0 text-[#1a1a1a]">When you search for speed, ensure the "Service Node" meets these <span className="font-bold underline decoration-blue-500">Security Parameters:</span></p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {["24/7 Availability", "Licensed & Insured", "Fast Response", "Emergency Specialist"].map((p, i) => (
+                  <div key={i} className="flex items-center gap-3 font-bold text-[#5F6368] uppercase text-xs tracking-widest">
+                    <CheckCircle2 className="w-4 h-4 text-green-500" /> {p}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <div className="bg-red-600 text-white p-16 rounded-[4rem] text-center space-y-10 shadow-2xl">
+            <h2 className="text-5xl font-black tracking-tight font-display m-0 uppercase leading-none">✅ Trusted Emergency Support</h2>
+            <p className="text-2xl text-white/90 max-w-2xl mx-auto m-0 leading-relaxed font-serif italic">
+              "For Northern Illinois immediate response, we recommend the HT Strenger emergency division."
+            </p>
+            <div className="pt-6">
+              <button 
+                onClick={() => window.open('https://htstrenger.com/emergency-plumbing/', '_blank')}
+                className="px-12 py-7 bg-white text-red-600 rounded-[2.25rem] font-black text-2xl hover:scale-105 transition-transform shadow-xl active:scale-95 leading-none"
+              >
+                REQUEST EMERGENCY SERVICE
+              </button>
+            </div>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Affiliate Link Protocol Enabled</p>
+          </div>
+
+          <div className="mt-24 pt-12 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center opacity-60 text-[10px] font-black uppercase tracking-widest">
+             <p>© 2026 OEC Emergency Response</p>
+             <div className="flex gap-8">
+                <span>Response Time: Immediate</span>
+                <span>Region: Northern IL Zone</span>
+                <span>Security Level: Critical</span>
+             </div>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 };
@@ -2565,6 +2762,7 @@ export default function App() {
         <Route path="/blog/credit-check-importance" element={<CreditCheckGuidePage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/blog/northern-illinois-plumbing-guide" element={<PlumbingGuidePage />} />
+        <Route path="/blog/emergency-plumber-illinois" element={<EmergencyPlumberPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>
